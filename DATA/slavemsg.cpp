@@ -101,7 +101,25 @@ QString SlaveMsg::getFuShu_1_1(void)
         retValue = "门磁信号记录";
         break;
     case 8:
-        retValue = "";
+        retValue = "停用按钮记录";
+        break;
+    case 9:
+        retValue = "震动记录";
+        break;
+    case 10:
+        retValue = "烟感记录";
+        break;
+    case 11:
+        retValue = "温度记录";
+        break;
+    case 12:
+        retValue = "水浸记录";
+        break;
+    case 13:
+        retValue = "玻璃破碎记录";
+        break;
+    case 14:
+        retValue = "红外记录";
         break;
     default:
         break;
@@ -136,10 +154,10 @@ QString SlaveMsg::getFuShu_1_2(void)
         retValue = "报警输出";
         break;
     case 7:
-        retValue = "";
+        retValue = "110联动输出";
         break;
     case 8:
-        retValue = "";
+        retValue = "监控联动输出";
         break;
     default:
         break;

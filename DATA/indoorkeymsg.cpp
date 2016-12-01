@@ -88,25 +88,32 @@ quint8 IndoorKeyMsg::getCardType(void)
 QString IndoorKeyMsg::getFuShu_2(void)
 {
     QString retValue="";
-    switch(fushu2)
+    if(msgType == 9)
     {
-    case 0:
-        retValue = "没有存储";
-        break;
-    case 6:
-        retValue = "主卡";
-        break;
-    case 7:
-        retValue = "";
-        break;
-    case 8:
-        retValue = "";
-        break;
-    case 9:
-        retValue = "";
-        break;
-    default:
-        break;
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "没有存储";
+            break;
+        case 6:
+            retValue = "主卡";
+            break;
+        case 7:
+            retValue = "设/撤防卡";
+            break;
+        case 8:
+            retValue = "开门卡";
+            break;
+        case 9:
+            retValue = "多卡开门";
+            break;
+        default:
+            break;
+        }
+    }
+    else if(msgType == 10)
+    {
+
     }
 
     return retValue;
