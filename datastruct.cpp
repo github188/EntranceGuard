@@ -1353,7 +1353,7 @@ quint8 Func_tcp_92(char *buf, paraData *pdat)
     quint8 crc = getCRC((uchar *)buf,15);
     if(crc==(uchar)buf[15])
     {
-        pdat->slaveStatus.buttonAlarmStatus = (quint8)buf[1];
+        pdat->slaveStatus.buttonAlarmStatus = (bool)buf[1];
         if(pdat->slaveStatus.buttonAlarmStatus)
         {
             QString alarm = "按钮报警";
@@ -1361,66 +1361,66 @@ quint8 Func_tcp_92(char *buf, paraData *pdat)
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.cutAlarmStatus = (quint8)buf[2];
+        pdat->slaveStatus.cutAlarmStatus = (bool)buf[2];
         if(pdat->slaveStatus.cutAlarmStatus)
         {
-            QString alarm = "切割报警";
+            QString alarm = "切割报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.zhengDongAlarmStatus = (quint8)buf[3];
+        pdat->slaveStatus.zhengDongAlarmStatus = (bool)buf[3];
         if(pdat->slaveStatus.zhengDongAlarmStatus)
         {
-            QString alarm = "震动报警";
+            QString alarm = "震动报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.yanWuAlarmStatus = (quint8)buf[4];
+        pdat->slaveStatus.yanWuAlarmStatus = (bool)buf[4];
         if(pdat->slaveStatus.yanWuAlarmStatus)
         {
-            QString alarm = "烟雾报警";
+            QString alarm = "烟雾报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.boLiAlarmStatus = (quint8)buf[5];
+        pdat->slaveStatus.boLiAlarmStatus = (bool)buf[5];
         if(pdat->slaveStatus.boLiAlarmStatus)
         {
-            QString alarm = "玻璃破碎报警";
+            QString alarm = "玻璃破碎报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.shuiQinAlarmStatus = (quint8)buf[6];
+        pdat->slaveStatus.shuiQinAlarmStatus = (bool)buf[6];
         if(pdat->slaveStatus.shuiQinAlarmStatus)
         {
-            QString alarm = "水浸报警";
+            QString alarm = "水浸报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.tempAlarmStatus = (quint8)buf[7];
+        pdat->slaveStatus.tempAlarmStatus = (bool)buf[7];
         if(pdat->slaveStatus.tempAlarmStatus)
         {
-            QString alarm = "温度报警";
+            QString alarm = "温度报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.doorCiAlarmStatus = (quint8)buf[8];
+        pdat->slaveStatus.doorCiAlarmStatus = (bool)buf[8];
         if(pdat->slaveStatus.doorCiAlarmStatus)
         {
-            QString alarm = "门磁报警";
+            QString alarm = "门磁报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);
         }
-        pdat->slaveStatus.existManAlarmStatus = (quint8)buf[9];
+        pdat->slaveStatus.existManAlarmStatus = (bool)buf[9];
         if(pdat->slaveStatus.existManAlarmStatus)
         {
-            QString alarm = "人存在报警";
+            QString alarm = "非法入侵报警 出现";
             pdat->alarmMsgList.append(alarm);
             //更新日志
             slaveInsetOneLog(pdat,alarm);

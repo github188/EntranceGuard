@@ -23,8 +23,11 @@ public:
    QString getEventName(void);
    QString getTypeName(void);
    quint8 getCardPosition(void);//刷卡位置
-   quint8 getCardType(void);//刷卡位置
-   QString getFuShu_2(void);//刷卡位置
+   quint8 getCardType(void);//刷卡类型
+   QString getFuShu_2(void);//附属信息2
+
+   //获取刷卡位置
+   QString getCardPositionStr(void);
 };
 
 #endif // INDOORKEYMSG_H

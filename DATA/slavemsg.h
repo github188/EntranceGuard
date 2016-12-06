@@ -34,15 +34,16 @@ public:
    QString getFuShu_1_3(void);
    QString getFuShu_1_4(void);
    QString getFuShu_1_5(void);
+   QString getFuShu_1_7(void);
    QString getFuShu_1_200(void);
    QString getFuShu_1_201(void);
+   //获取附属信息2
    QString getFuShu_2_1(void);
    QString getFuShu_2_2(void);
    QString getFuShu_2_3(void);
    QString getFuShu_2_4(void);
    QString getFuShu_2_5(void);
-   QString getFuShu_2_200(void);
-   QString getFuShu_2_201(void);
+   QString getFuShu_2_7(void);
 
 };
 

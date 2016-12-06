@@ -81,7 +81,9 @@ QIcon TreeViewItem::getQicon(void)
                     slave->equParaData.slaveStatus.shuiQinAlarmStatus|
                     slave->equParaData.slaveStatus.tempAlarmStatus|
                     slave->equParaData.slaveStatus.yanWuAlarmStatus|
-                    slave->equParaData.slaveStatus.zhengDongAlarmStatus)
+                    slave->equParaData.slaveStatus.zhengDongAlarmStatus|
+                    slave->equParaData.slaveStatus.doorCiAlarmStatus|
+                    slave->equParaData.slaveStatus.existManAlarmStatus)
             {
                 icon=QIcon(":/联网状态图标/image/联网状态图标/连接状态-报警.png");
             }

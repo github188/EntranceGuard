@@ -2335,7 +2335,7 @@ void frmMain::slotupdateSlaveStatusDisplay(paraData* pdata)
                         ui->btnEnOrDisAbleFangHuCang->setText("设防");
                         break;
                     case 4://处于报警状态
-                        ui->lbIconFangHuCangStatus->setStyleSheet("");
+                        ui->lbIconFangHuCangStatus->setStyleSheet("iconCjcAlarmSetGuardState");
                         ui->btnEnOrDisAbleFangHuCang->setText("");
                         break;
                     }

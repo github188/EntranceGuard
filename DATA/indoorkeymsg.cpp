@@ -85,6 +85,25 @@ quint8 IndoorKeyMsg::getCardType(void)
 
     return retValue;
 }
+//获取刷卡位置
+QString IndoorKeyMsg::getCardPositionStr(void)
+{
+    QString retValue="";
+
+    switch(getCardType())
+    {
+    case 0x20:
+        retValue = "进门位置";
+        break;
+    case 0x30:
+        retValue = "出门位置";
+        break;
+    default:
+        break;
+    }
+
+    return retValue;
+}
 QString IndoorKeyMsg::getFuShu_2(void)
 {
     QString retValue="";

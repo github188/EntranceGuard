@@ -60,6 +60,9 @@ QString SlaveMsg::getTypeName(void)
     case 5:
         retValue = "【报警相关事件】";
         break;
+    case 7:
+        retValue = "【门禁使用事件】";
+        break;
     case 200:
         retValue = "【系统复位】";
         break;
@@ -279,6 +282,62 @@ QString SlaveMsg::getFuShu_1_5(void)
 
     return retValue;
 }
+QString SlaveMsg::getFuShu_1_7(void)
+{
+    QString retValue="";
+    switch(fushu1)
+    {
+    case 0:
+        retValue = "用户改变设防";
+        break;
+    case 1:
+        retValue = "通过软件改变设防状态";
+        break;
+    case 2:
+        retValue = "管理员添加用户";
+        break;
+    case 3:
+        retValue = "管理员删除用户";
+        break;
+    case 4:
+        retValue = "硬件更换管理员";
+        break;
+    case 5:
+        retValue = "通过软件添加用户";
+        break;
+    case 6:
+        retValue = "通过软件删除用户";
+        break;
+    case 7:
+        retValue = "通过软件更换管理员";
+        break;
+    case 8:
+        retValue = "";
+        break;
+    case 9:
+        retValue = "";
+        break;
+    case 10:
+        retValue = "";
+        break;
+    case 11:
+        retValue = "";
+        break;
+    case 12:
+        retValue = "";
+        break;
+    case 13:
+        retValue = "";
+        break;
+    case 14:
+        retValue = "";
+        break;
+    default:
+        break;
+    }
+
+    return retValue;
+}
 QString SlaveMsg::getFuShu_1_200(void)
 {
     QString retValue="";
@@ -377,6 +436,9 @@ QString SlaveMsg::getFuShu_1_name(void)
     case 5:
         retValue=getFuShu_1_5();
         break;
+    case 7:
+        retValue=getFuShu_1_7();
+        break;
     case 200:
         retValue=getFuShu_1_200();
         break;
@@ -388,70 +450,358 @@ QString SlaveMsg::getFuShu_1_name(void)
     }
     return retValue;
 }
+/******************附属2开始***********************/
 QString SlaveMsg::getFuShu_2_1(void)
 {
     QString retValue="";
-    /*
-    switch(fushu2)
+    switch(fushu1)
     {
     case 0:
-        retValue = "门外按钮记录";
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "按下";
+            break;
+        case 1:
+            retValue = "";
+            break;
+        default:
+            break;
+        }
         break;
     case 1:
-        retValue = "门内按钮记录";
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "按下";
+            break;
+        case 1:
+            retValue = "";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 2:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "按钮报警信号消失";
+            break;
+        case 1:
+            retValue = "按钮报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 3:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "人体信号出现";
+            break;
+        case 1:
+            retValue = "人体信号消失";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 4:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "锁舌缩回";
+            break;
+        case 1:
+            retValue = "锁舌伸出";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 5:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "切割报警信号消失";
+            break;
+        case 1:
+            retValue = "切割报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 6:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "光照变强";
+            break;
+        case 1:
+            retValue = "光照变暗";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 7:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "门关";
+            break;
+        case 1:
+            retValue = "门开";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 8:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "按钮停用消失";
+            break;
+        case 1:
+            retValue = "按钮停用出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 9:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "震动报警信号消失";
+            break;
+        case 1:
+            retValue = "震动报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 10:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "烟感报警信号消失";
+            break;
+        case 1:
+            retValue = "烟感报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 11:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "玻璃破碎报警信号消失";
+            break;
+        case 1:
+            retValue = "玻璃破碎报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 12:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "水浸报警信号消失";
+            break;
+        case 1:
+            retValue = "水浸报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 13:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "温感报警信号消失";
+            break;
+        case 1:
+            retValue = "温感报警信号出现";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 14:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "红外报警信号消失";
+            break;
+        case 1:
+            retValue = "红外报警信号出现";
+            break;
+        default:
+            break;
+        }
         break;
     default:
         break;
     }
-    */
+
     return retValue;
 }
 QString SlaveMsg::getFuShu_2_2(void)
 {
     QString retValue="";
-    /*
+
     switch(fushu2)
     {
     case 0:
-        retValue = "灯箱灯输出";
+        retValue = "关闭";
         break;
     case 1:
-        retValue = "照明灯输出";
+        retValue = "打开";
         break;
     default:
         break;
     }
-    */
     return retValue;
 }
 QString SlaveMsg::getFuShu_2_3(void)
 {
     QString retValue="";
-    /*
-    switch(fushu2)
+    switch(fushu1)
     {
     case 0:
-        retValue = "是否允许门外按钮开门";
+        retValue = "";
         break;
     case 1:
-        retValue = "使用状态变化";
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "防护舱无人使用";
+            break;
+        case 1:
+            retValue = "防护舱有人使用";
+            break;
+        case 2:
+            retValue = "防护舱使用超时";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 2:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "启用防护舱";
+            break;
+        case 1:
+            retValue = "停用防护舱";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 3:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "解除锁闭";
+            break;
+        case 1:
+            retValue = "锁闭防护舱";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 4:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "设备使用中，进门按钮未能开门";
+            break;
+        case 1:
+            retValue = "设备停用中，进门按钮未能开门";
+            break;
+        case 2:
+            retValue = "设备锁闭中，进门按钮未能开门";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 5:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "设备停用中，出门按钮未能开门";
+            break;
+        case 1:
+            retValue = "设备锁闭中，出门按钮未能开门";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 6:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "软件开门成功";
+            break;
+        case 1:
+            retValue = "防护舱处于停用状态，软件开门失败";
+            break;
+        case 2:
+            retValue = "防护舱处于锁闭状态，软件开门失败";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 7:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "未完成";
+            break;
+        case 1:
+            retValue = "完成";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 8:
+        retValue = "";
         break;
     default:
         break;
     }
-    */
+
     return retValue;
 }
 QString SlaveMsg::getFuShu_2_4(void)
 {
     QString retValue="";
+
     switch(fushu2)
     {
     case 0:
         retValue = "";
         break;
     case 1:
-        retValue = "进门语音";
+        retValue = "欢迎语音";
         break;
     case 2:
         retValue = "使用中语音";
@@ -460,19 +810,19 @@ QString SlaveMsg::getFuShu_2_4(void)
         retValue = "维护中语音";
         break;
     case 4:
-        retValue = "使用提醒语音";
+        retValue = "超时提醒语音";
         break;
     case 5:
-        retValue = "使用超时语音";
+        retValue = "超时提示语音";
         break;
     case 6:
-        retValue = "出门语音";
+        retValue = "再见语音";
         break;
     case 7:
-        retValue = "门开提示安全语音";
+        retValue = "门开提示语音";
         break;
     case 8:
-        retValue = "门未锁好提示语音";
+        retValue = "门未锁好语音";
         break;
     case 9:
         retValue = "请拉门语音";
@@ -486,57 +836,137 @@ QString SlaveMsg::getFuShu_2_4(void)
 QString SlaveMsg::getFuShu_2_5(void)
 {
     QString retValue="";
-    /*
+
     switch(fushu2)
     {
     case 0:
-        retValue = "按钮报警事件";
+        retValue = "消失";
         break;
     case 1:
-        retValue = "防切割报警事件";
+        retValue = "出现";
         break;
     default:
         break;
     }
-    */
     return retValue;
 }
-QString SlaveMsg::getFuShu_2_200(void)
+QString SlaveMsg::getFuShu_2_7(void)
 {
     QString retValue="";
-    /*
-    switch(fushu2)
+    switch(fushu1)
     {
     case 0:
-        retValue = "";
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "撤防";
+            break;
+        case 1:
+            retValue = "设防";
+            break;
+        default:
+            break;
+        }
         break;
     case 1:
-        retValue = "系统上电复位记录";
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "撤防";
+            break;
+        case 1:
+            retValue = "设防";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 2:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "正常状态";
+            break;
+        case 1:
+            retValue = "添加用户状态";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 3:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "正常状态";
+            break;
+        case 1:
+            retValue = "删除用户状态";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 4:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "正常状态";
+            break;
+        case 1:
+            retValue = "更换管理员状态";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 5:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "正常状态";
+            break;
+        case 1:
+            retValue = "添加用户状态";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 6:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "正常状态";
+            break;
+        case 1:
+            retValue = "删除用户状态";
+            break;
+        default:
+            break;
+        }
+        break;
+    case 7:
+        switch(fushu2)
+        {
+        case 0:
+            retValue = "正常状态";
+            break;
+        case 1:
+            retValue = "更换管理员状态";
+            break;
+        default:
+            break;
+        }
         break;
     default:
         break;
     }
-    */
+
     return retValue;
 }
-QString SlaveMsg::getFuShu_2_201(void)
-{
-    QString retValue="";
-    /*
-    switch(fushu2)
-    {
-    case 0:
-        retValue = "";
-        break;
-    case 1:
-        retValue = "系统异常中断记录";
-        break;
-    default:
-        break;
-    }
-    */
-    return retValue;
-}
+/****************************************/
+
 QString SlaveMsg::getFuShu_2_name(void)
 {
     QString retValue="";
@@ -559,11 +989,12 @@ QString SlaveMsg::getFuShu_2_name(void)
     case 5:
         retValue=getFuShu_2_5();
         break;
+    case 7:
+        retValue=getFuShu_2_7();
+        break;
     case 200:
-        retValue=getFuShu_2_200();
         break;
     case 201:
-        retValue=getFuShu_2_201();
         break;
     default:
         break;
