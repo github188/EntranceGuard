@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FrmManagerModule</class>
- <widget class="QDialog" name="FrmManagerModule">
+ <class>FrmSelectModuleVersion</class>
+ <widget class="QDialog" name="FrmSelectModuleVersion">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>575</width>
-    <height>352</height>
+    <width>343</width>
+    <height>132</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>管理参数模板</string>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -24,9 +24,6 @@
     <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
-   </property>
-   <property name="spacing">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -93,7 +90,7 @@
          <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
         </property>
         <property name="text">
-         <string>管理参数模板</string>
+         <string>选择模板类型</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -265,96 +262,46 @@
      <property name="styleSheet">
       <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QPushButton" name="btnNew">
-          <property name="text">
-           <string>新建</string>
-          </property>
-          <property name="icon">
-           <iconset resource="rc.qrc">
-            <normaloff>:/image/btn_add.png</normaloff>:/image/btn_add.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnEdit">
-          <property name="text">
-           <string>编辑</string>
-          </property>
-          <property name="icon">
-           <iconset resource="rc.qrc">
-            <normaloff>:/image/edit.ico</normaloff>:/image/edit.ico</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnDelete">
-          <property name="text">
-           <string>删除</string>
-          </property>
-          <property name="icon">
-           <iconset resource="rc.qrc">
-            <normaloff>:/image/btn_close.png</normaloff>:/image/btn_close.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnIn">
-          <property name="text">
-           <string>导入</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnOut">
-          <property name="text">
-           <string>导出</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnCancel">
-          <property name="text">
-           <string>关闭</string>
-          </property>
-          <property name="icon">
-           <iconset resource="rc.qrc">
-            <normaloff>:/image/close.png</normaloff>:/image/close.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="0">
-       <widget class="QTableWidget" name="tableWidget">
-        <property name="selectionMode">
-         <enum>QAbstractItemView::SingleSelection</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>301</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>50</y>
+        <width>158</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="btnCancel">
+         <property name="text">
+          <string>取消</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnOk">
+         <property name="text">
+          <string>确定</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="rc.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

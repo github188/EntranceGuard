@@ -234,7 +234,7 @@ color: rgb(254, 255, 233);</string>
     </rect>
    </property>
    <property name="text">
-    <string>济南奥盾电子科技有限公司</string>
+    <string>XXXXXX公司</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -2,6 +2,8 @@
 #include "ui_frmmanagermodule.h"
 #include "iconhelper.h"
 #include "myhelper.h"
+#include "frmselectmoduleversion.h"
+
 extern QString sFilePath;
 FrmManagerModule::FrmManagerModule(QWidget *parent) :
     QDialog(parent),
@@ -18,7 +20,7 @@ FrmManagerModule::FrmManagerModule(QWidget *parent) :
     connect(ui->btnIn,SIGNAL(clicked(bool)),this,SLOT(slotbtnIn()));
     connect(ui->btnOut,SIGNAL(clicked(bool)),this,SLOT(slotbtnOut()));
     connect(frmModulePara,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 FrmManagerModule::~FrmManagerModule()
@@ -43,6 +45,15 @@ void FrmManagerModule::InitStyle()
     IconHelper::Instance()->SetIcon(ui->btnMenu_Min, QChar(0xf068), 10);
     //IconHelper::Instance()->SetIcon(ui->btnMenu, QChar(0xf0c9), 10);
     IconHelper::Instance()->SetIcon(ui->lab_Ico, QChar(0xf015), 12);
+
+    QStringList header;
+    header<<"模版名称"<<"适用版本号";
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setHorizontalHeaderLabels(header);
+    ui->tableWidget->setColumnWidth(0,150);
+    ui->tableWidget->setSelectionBehavior ( QAbstractItemView::SelectRows); //设置选择行为，以行为单位
+    ui->tableWidget->setSelectionMode ( QAbstractItemView::SingleSelection); //设置选择模式，选择单行
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);//关键
 
 }
 
@@ -103,6 +114,7 @@ void FrmManagerModule::on_btnMenu_Min_clicked()
 }
 void FrmManagerModule::btnAddModule()
 {
+    /*
     //新建模板
     //emit sigAddParaModule();
     paraData *para = new paraData();
@@ -114,10 +126,17 @@ void FrmManagerModule::btnAddModule()
     frm->SetTitleText("新建模板参数");
     frm->exec();
     delete para;
+    */
+    FrmSelectModuleVersion *modelVersion = new FrmSelectModuleVersion();
+    connect(modelVersion,SIGNAL(sigSaveModule(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
+    modelVersion->slotSetVersionInfoList(versionInfoList);
+    modelVersion->setVoiceModel(voiceModel);
+    modelVersion->setModal(true);//半模态调用对话框
+    modelVersion->show();
 }
 void FrmManagerModule::btnDeleteModule()
 {
-    emit sigDelParaModule(ui->tableView->currentIndex());
+    emit sigDelParaModule(ui->tableWidget->currentIndex());
 }
 void FrmManagerModule::btnCancel()
 {
@@ -126,7 +145,7 @@ void FrmManagerModule::btnCancel()
 void FrmManagerModule::btnEditPara()
 {
     //emit sigEditParaModule(ui->tableView->currentIndex());
-    QModelIndex index = ui->tableView->currentIndex();
+    QModelIndex index = ui->tableWidget->currentIndex();
     QString name = tableModel->data(index).toString();
     paraData * tempPara=NULL;
     for(int i=0;i<moduleList.count();i++)
@@ -151,18 +170,29 @@ void FrmManagerModule::setVoiceModel(QSqlTableModel *model)
 {
     voiceModel = model;
 }
+void FrmManagerModule::slotSetVersionInfoList(QList<VersionInfo*> list)
+{
+    versionInfoList = list;
+}
 void FrmManagerModule::slotSaveModule(QString name,paraData *data)
 {
     emit sigSaveModulePara(name,data);
 }
-void FrmManagerModule::slotSetTableModel(QSqlTableModel * model,QList<paraModule*> list)
+void FrmManagerModule::slotSetTableModel(QList<SlaveVersion *> versionList, QList<paraModule*> list)
 {
-    tableModel = model;
+    //tableModel = model;
+    slaveVersionList = versionList;
     moduleList=list;
-    ui->tableView->setModel(tableModel);
-    ui->tableView->setColumnWidth(0,317);
-    ui->tableView->horizontalHeader()->setStretchLastSection(true);//关键
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setRowCount(slaveVersionList.length());
+    for(int i=0;i<slaveVersionList.length();i++)
+    {
+        ui->tableWidget->setItem(i,0,new QTableWidgetItem(slaveVersionList.at(i)->name));
+        ui->tableWidget->setItem(i,1,new QTableWidgetItem(slaveVersionList.at(i)->version));
+    }
+    //ui->tableView->setModel(tableModel);
+    //ui->tableView->setColumnWidth(0,317);
+    //ui->tableView->horizontalHeader()->setStretchLastSection(true);//关键
+    //ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 //导入模板
 void FrmManagerModule::slotbtnIn()
@@ -437,7 +467,7 @@ void FrmManagerModule::slotbtnOut()
             return;
         }
         QDataStream out(&file);
-        QString name = tableModel->data(ui->tableView->currentIndex()).toString();
+        QString name = tableModel->data(ui->tableWidget->currentIndex()).toString();
         paraModule * module=NULL;
         for(int i=0;i<moduleList.count();i++)
         {

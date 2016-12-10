@@ -6,6 +6,8 @@
 #include <QSqlTableModel>
 #include "../DATA/paramodule.h"
 #include "../frmmodulepara.h"
+#include "../DATA/slaveversion.h"
+#include "../DATA/versioninfo.h"
 namespace Ui {
 class FrmManagerModule;
 }
@@ -29,9 +31,11 @@ private:
     bool mousePressed;
     bool max;
     QRect location;
+    QList<SlaveVersion*> slaveVersionList;
     QSqlTableModel *voiceModel;
     QSqlTableModel *tableModel;
     QList<paraModule*> moduleList;
+    QList<VersionInfo*> versionInfoList;
     FrmModulePara *frmModulePara;
     void InitStyle();
 signals:
@@ -53,7 +57,8 @@ private slots:
     void slotbtnOut();
     void slotSaveModule(QString name,paraData *data);
 public slots:
-    void slotSetTableModel(QSqlTableModel * model,QList<paraModule*> list);
+    void slotSetTableModel(QList<SlaveVersion*> slaveVersionList,QList<paraModule*> list);
+    void slotSetVersionInfoList(QList<VersionInfo*> list);
 };
 
 #endif // FRMMANAGERMODULE_H

@@ -35,12 +35,13 @@
 #include "./User/userpermission.h"
 #include "./DATA/systemlogitem.h"
 #include "./DATA/fanghucanglogitem.h"
+#include "./DATA/slaveversion.h"
 #include "../frmsearchslavelog.h"
 #include "../frmsearchsystemlog.h"
 #include "../TCPIP/mytcpserver.h"
 #include "../frmeditcjcworkpara.h"
 #include "../frmslaveuserlist.h"
-
+#include "./DATA/versioninfo.h"
 #define MaxConnectSlave (500)
 
 namespace Ui {
@@ -224,7 +225,7 @@ signals:
     void sigSendParentTbModel(QSqlTableModel *);
     void sigSendVoiceTbModel(QSqlTableModel *);
     void sigSendModuleTbModel(QSqlTableModel *);
-    void sigSendModuleTbModel(QSqlTableModel *,QList<paraModule*> list);
+    void sigSendModuleTbModel(QList<SlaveVersion *>,QList<paraModule*> list);
     void sigConnectedToSlave(bool,paraData*);
     void sigWriteNowTime(quint8 year, quint8 month, quint8 day, quint8 hour, quint8 minute, quint8 second, quint8 week);
     void sigEditFangHuCangPara(paraFangHuCang fangHuCangPara,quint8 mod);
@@ -328,6 +329,8 @@ private:
     Equipment * currentSlave;
     QList<Equipment*> classList;//所有设备列表
     QList<paraModule*> moduleList;
+    QList<SlaveVersion*> versionList;
+    QList<VersionInfo*> versioninfoList;
     QList<SystemLogItem*> systemLogList;
     QList<FangHuCangLogItem*> fangHuCangLogList;
 

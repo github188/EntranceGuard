@@ -73,7 +73,10 @@ SOURCES += main.cpp\
     odbcexcel.cpp \
     frmeditcjcworkpara.cpp \
     frmslaveuserlist.cpp \
-    DATA/indoorkeymsg.cpp
+    DATA/indoorkeymsg.cpp \
+    frmselectmoduleversion.cpp \
+    DATA/slaveversion.cpp \
+    DATA/versioninfo.cpp
 HEADERS  += frmmain.h \
     iconhelper.h \
     frmmessagebox.h \
@@ -137,7 +140,10 @@ HEADERS  += frmmain.h \
     odbcexcel.h \
     frmeditcjcworkpara.h \
     frmslaveuserlist.h \
-    DATA/indoorkeymsg.h
+    DATA/indoorkeymsg.h \
+    frmselectmoduleversion.h \
+    DATA/slaveversion.h \
+    DATA/versioninfo.h
 FORMS    += frmmain.ui \
     frmmessagebox.ui \
     frmaddequ.ui \
@@ -166,7 +172,8 @@ FORMS    += frmmain.ui \
     frmsearchslavelog.ui \
     frmsearchsystemlog.ui \
     frmeditcjcworkpara.ui \
-    frmslaveuserlist.ui
+    frmslaveuserlist.ui \
+    frmselectmoduleversion.ui
 
 MOC_DIR=temp/moc
 RCC_DIR=temp/rcc

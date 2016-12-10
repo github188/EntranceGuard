@@ -301,7 +301,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(this,SIGNAL(sigSendVoiceTbModel(QSqlTableModel*)),frmVoiceManager,SLOT(setTreeViewModel(QSqlTableModel*)));
     //connect(this,SIGNAL(sigSendVoiceTbModel(QSqlTableModel*)),frmSelectSound,SLOT(setTreeViewModel(QSqlTableModel*)));
 
-    connect(this,SIGNAL(sigSendModuleTbModel(QSqlTableModel*,QList<paraModule*>)),frmManagerModel,SLOT(slotSetTableModel(QSqlTableModel*,QList<paraModule*>)));
+    connect(this,SIGNAL(sigSendModuleTbModel(QList<SlaveVersion *>,QList<paraModule*>)),frmManagerModel,SLOT(slotSetTableModel(QList<SlaveVersion *>,QList<paraModule*>)));
     connect(this,SIGNAL(sigSendModuleTbModel(QSqlTableModel*)),frmUseModule,SLOT(slotSetTableModel(QSqlTableModel*)));
 
     connect(ui->btnChangeHySound,SIGNAL(clicked(bool)),this,SLOT(slotBtnChangeHySound()));
@@ -745,8 +745,19 @@ void frmMain::InitForm()
 
             treeItem->text = query->value(3).toString();
             pdat->name = treeItem->text;
+            QString tempstr="";
             //添加日志记录
-            InsertOneSystemLogAndShow("加载防护舱“"+pdat->name+"("+pdat->net.macAddr+")"+"”");
+            switch (pdat->slaveType) {
+            case 0:
+                tempstr="加载防护舱“";
+                break;
+            case 1:
+                tempstr="加载加钞间“";
+                break;
+            default:
+                break;
+            }
+            InsertOneSystemLogAndShow(tempstr+pdat->name+"("+pdat->net.macAddr+")"+"”");
 
             pdat->net.ip = query->value(4).toString();
 
@@ -991,6 +1002,41 @@ void frmMain::InitForm()
 
         }
     }
+    //读取版本号和名称
+    if(!query->exec("select tmodule.[Name],TMODULE.[level],TVERSIONMANAGER.[Name] as version from TMODULE join TVERSIONMANAGER ON TMODULE.[level] = TVERSIONMANAGER.[Level]"))
+    {
+        QLOG_ERROR() <<query->lastError();
+    }
+    else
+    {
+        while(query->next())
+        {
+            SlaveVersion *tempVersion = new SlaveVersion();
+
+            tempVersion->name     = query->value(0).toString();
+            tempVersion->level    = query->value(1).toInt();
+            tempVersion->version = query->value(2).toString();
+
+            versionList.append(tempVersion);
+        }
+    }
+    //读取版本号和等级
+    if(!query->exec("select * from TVersionManager"))
+    {
+        QLOG_ERROR() <<query->lastError();
+    }
+    else
+    {
+        while(query->next())
+        {
+            VersionInfo *tempVersion = new VersionInfo();
+
+            tempVersion->level    = query->value(0).toInt();
+            tempVersion->name     = query->value(1).toString();
+
+            versioninfoList.append(tempVersion);
+        }
+    }
     /*
     if(!query->exec("select * from TSystemLog"))
     {
@@ -1099,12 +1145,13 @@ void frmMain::on_btnMenu_Close_clicked()
             QLOG_ERROR() <<query->lastError();
         }
     }*/
-    //关闭数据库
-    QLOG_INFO()<<"关闭数据库...";
-    database.close();
+
     //保存配置
     QLOG_INFO()<<"保存配置...";
     writeSettings();
+    //关闭数据库
+    QLOG_INFO()<<"关闭数据库...";
+    database.close();
     //qApp->exit();
     QLOG_INFO()<<"关闭窗口，退出程序。";
     this->close();
@@ -1134,6 +1181,7 @@ void frmMain::searchEqu()
 {
     searchedAll.clear();
     searchEquForm->setModal(true);
+    searchEquForm->DisplayResult(&viewlist,&searchedAll);
     //emit SearchedEqument(&viewlist,&searchedAll);
     searchEquForm->show();
     //searchEquForm->exec();
@@ -1616,7 +1664,7 @@ void frmMain::changeFHCText()
     ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
     ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
     //ui->tabWidgetSlavePara->setCurrentIndex(0);
-
+    ui->btnOpenDoor->setEnabled(true);
     ui->btnOpenDoor->setStyleSheet("");
     ui->btnOpenDoor->setText("开门");
 
@@ -1665,6 +1713,7 @@ void frmMain::changeJCJText()
 
     ui->btnOpenDoor->setStyleSheet("background-color:rgba(0,0,0,0);border-style:none;");
     ui->btnOpenDoor->setText("");
+    ui->btnOpenDoor->setEnabled(false);
 
     ui->statusLabel_1->setText("工作状态：");
     ui->statusLabel_2->setText("门状态：");
@@ -2149,7 +2198,7 @@ void frmMain::slotupdateSlaveStatusDisplay(paraData* pdata)
                     ui->btnChange1->setEnabled(true);
                     ui->btnChange2->setEnabled(true);
                     ui->btnTime->setEnabled(true);
-                    ui->btnOpenDoor->setEnabled(true);
+                    //ui->btnOpenDoor->setEnabled(true);
                     ui->btnEnOrDisAbleFangHuCang->setEnabled(true);
                     ui->btnLock->setEnabled(true);
                     ui->btnChangeFailLockSound->setEnabled(true);
@@ -3185,8 +3234,8 @@ void frmMain::slotTreeViewCustomContextMenuRequested(const QPoint &pos)
         moveToParentAction->setText(tr("移动到区域"));
         editAction->setText(tr("编辑名称"));
         addParentInTreeAction->setText(tr("添加区域"));
-        editAreaAllSlaveZhaoMingPara->setText("批量修改本区域照明参数");
-        editAreaAllSlaveWorkPara->setText("批量修改本区域工作参数");
+        editAreaAllSlaveZhaoMingPara->setText("批量修改本区域门禁照明参数");
+        editAreaAllSlaveWorkPara->setText("批量修改本区域门禁工作参数");
 
         treeViewContextMenu->addAction(expandAllAction);
         treeViewContextMenu->addAction(unExpandAllAction);
@@ -4443,11 +4492,14 @@ void frmMain::on_hsVoice_valueChanged(int value)
 
 void frmMain::readModuleData()
 {
-    moduleModel->setTable("TModule");
-    moduleModel->select();
-    moduleModel->setHeaderData(0,Qt::Horizontal,tr("名称"));
-    moduleModel->setHeaderData(1,Qt::Horizontal,tr("适用版本"));
-    emit sigSendModuleTbModel(moduleModel,moduleList);
+    //moduleModel->setTable("TModule");
+
+    //moduleModel->setQuery(QSqlQuery("select tmodule.[Name],TMODULE.[level],TVERSIONMANAGER.[Name] as version from TMODULE join TVERSIONMANAGER ON TMODULE.[level] = TVERSIONMANAGER.[Level]",database));
+    //moduleModel->select();
+    //moduleModel->setHeaderData(0,Qt::Horizontal,tr("名称"));
+    //moduleModel->setHeaderData(1,Qt::Horizontal,tr("适用版本"));
+    emit sigSendModuleTbModel(versionList,moduleList);
+    frmManagerModel->slotSetVersionInfoList(versioninfoList);
     emit sigSendModuleTbModel(moduleModel);
 }
 void frmMain::readVoiceData()
@@ -5345,7 +5397,11 @@ void frmMain::slotSaveAreaSlaveZhaoMingPara(paraZhaoMing * zmpara)
     for(int i=0;i<slaveList.count();i++)
     {
         Equipment *slave = slaveList.at(i)->GetSlave();
-        slave->setZhaoMingPara(zmpara);
+        //只修改门禁的照明参数
+        if(slave->equParaData.slaveType == 0)
+        {
+            slave->setZhaoMingPara(zmpara);
+        }
     }
 }
 //批量修改区域内的工作参数
@@ -5376,7 +5432,11 @@ void frmMain::slotSaveAreaSlaveWorkPara(paraFangHuCang * fhcpara)
     for(int i=0;i<slaveList.count();i++)
     {
         Equipment *slave = slaveList.at(i)->GetSlave();
-        slave->setWorkPara(fhcpara);
+        //只修改门禁的工作参数
+        if(slave->equParaData.slaveType == 0)
+        {
+            slave->setWorkPara(fhcpara);
+        }
     }
 }
 void frmMain::writeSettings()
@@ -5546,16 +5606,27 @@ void frmMain::InsertOneSystemLogAndShow(QString item)
     //加入日志
     SystemLogItem *tempLog = new SystemLogItem();
     QString fanghucang="";
+    QString slaveType="";
+
     if(currentSlave != NULL)
     {
         fanghucang = currentSlave->GetEquNameMac();
-
+        switch (currentSlave->equParaData.slaveType) {
+        case 0:
+            slaveType="防护舱:";
+            break;
+        case 1:
+            slaveType="加钞间:";
+            break;
+        default:
+            break;
+        }
     }
     else
     {
-        fanghucang = "NULL";
+        fanghucang = "";
     }
-    tempLog->LogItem = currentUser.userName+" "+item+" 防护舱："+fanghucang;
+    tempLog->LogItem = currentUser.userName+" "+item+" "+slaveType+fanghucang;
     //systemLogList.append(tempLog);
     slotInsertItemSystemLog(tempLog);
 }
