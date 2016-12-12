@@ -146,25 +146,38 @@ void FrmManagerModule::btnEditPara()
 {
     //emit sigEditParaModule(ui->tableView->currentIndex());
     QModelIndex index = ui->tableWidget->currentIndex();
-    QString name = tableModel->data(index).toString();
+    QString name = slaveVersionList.at(index.row())->name;
+    quint8 level = slaveVersionList.at(index.row())->level;
     paraData * tempPara=NULL;
-    for(int i=0;i<moduleList.count();i++)
-    {
-        if(moduleList.at(i)->name == name)
-        {
-            tempPara = &moduleList.at(i)->pdat;
-            break;
-        }
-    }
-    if(tempPara==NULL)
-        return;
+    switch (level) {
+    case 1:
 
-    FrmModulePara *frm= new FrmModulePara();
-    connect(frm,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
-    frm->SetPara(name,tempPara,1);
-    frm->setVoiceModel(voiceModel);
-    frm->SetTitleText("修改模板参数");
-    frm->exec();
+        break;
+    case 2:
+    {
+        for(int i=0;i<moduleList.count();i++)
+        {
+            if(moduleList.at(i)->name == name)
+            {
+                tempPara = &moduleList.at(i)->pdat;
+                break;
+            }
+        }
+        if(tempPara==NULL)
+            return;
+
+        FrmModulePara *frm= new FrmModulePara();
+        connect(frm,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
+        frm->SetPara(name,tempPara,1);
+        frm->setVoiceModel(voiceModel);
+        frm->SetTitleText("修改模板参数");
+        frm->exec();
+    }
+        break;
+    default:
+        break;
+    }
+
 }
 void FrmManagerModule::setVoiceModel(QSqlTableModel *model)
 {

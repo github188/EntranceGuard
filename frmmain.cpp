@@ -46,6 +46,7 @@ frmMain::frmMain(QWidget *parent) :
     udpClient = new QUdpSocket(this);
     //实例化QTcpServer服务器，进行监听，等待客户端的连接
     tcpServer = new myTcpServer(this);
+    windowStatus=0;
     //开始监听
     bool ok=tcpServer->listen(QHostAddress::Any,13710);
     //tcpClient = new QTcpSocket(this);
@@ -1003,6 +1004,7 @@ void frmMain::InitForm()
         }
     }
     //读取版本号和名称
+    versionList.clear();
     if(!query->exec("select tmodule.[Name],TMODULE.[level],TVERSIONMANAGER.[Name] as version from TMODULE join TVERSIONMANAGER ON TMODULE.[level] = TVERSIONMANAGER.[Level]"))
     {
         QLOG_ERROR() <<query->lastError();
@@ -1654,96 +1656,104 @@ void frmMain::slotupdateSlaveTimeDisplay(paraData* pdata)
 //状态页面显示项目修改为防护舱界面
 void frmMain::changeFHCText()
 {
-    //设置防护舱参数标签可见
-    //disconnect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(btnEnOrDisAbleFangHuCang()));
-    //connect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(slotEanbleOrDisableSlave()));
-    ui->tabWidgetSlavePara->clear();
-    ui->tabWidgetSlavePara->addTab(ui->tabSlaveStatus,"运行状态");
-    ui->tabWidgetSlavePara->addTab(ui->tabSlavePara,"控制参数");
-    ui->tabWidgetSlavePara->addTab(ui->tabVoicePara,"语音状态");
-    ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
-    ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
-    //ui->tabWidgetSlavePara->setCurrentIndex(0);
-    ui->btnOpenDoor->setEnabled(true);
-    ui->btnOpenDoor->setStyleSheet("");
-    ui->btnOpenDoor->setText("开门");
+    if(windowStatus!=1)
+    {
+        windowStatus=1;
+        //设置防护舱参数标签可见
+        //disconnect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(btnEnOrDisAbleFangHuCang()));
+        //connect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(slotEanbleOrDisableSlave()));
+        ui->tabWidgetSlavePara->clear();
+        ui->tabWidgetSlavePara->addTab(ui->tabSlaveStatus,"运行状态");
+        ui->tabWidgetSlavePara->addTab(ui->tabSlavePara,"控制参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabVoicePara,"语音状态");
+        ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
+        //ui->tabWidgetSlavePara->setCurrentIndex(0);
+        ui->btnOpenDoor->setEnabled(true);
+        ui->btnOpenDoor->setStyleSheet("");
+        ui->btnOpenDoor->setText("开门");
 
-    ui->statusLabel_1->setText("使用状态：");
-    ui->statusLabel_2->setText("门状态：");
-    ui->statusLabel_3->setText("照明灯：");
-    ui->statusLabel_4->setText("防护舱状态：");
-    ui->statusLabel_5->setText("灯箱：");
-    ui->statusLabel_6->setText("闭锁状态：");
-    ui->statusLabel_7->setText("风扇：");
-    ui->statusLabel_8->setText("按钮报警状态");
-    ui->statusLabel_9->setText("切割报警状态：");
-    ui->statusLabel_10->setText("温度报警状态：");
-    ui->statusLabel_11->setText("震动报警状态：");
-    ui->statusLabel_12->setText("水浸报警状态：");
-    ui->statusLabel_13->setText("烟雾报警状态：");
-    ui->statusLabel_14->setText("玻璃破碎报警状态");
-    //语音界面更设置
-    ui->labelVoice_1->setText("拉门提示语音内容：");
-    ui->labelVoice_2->setText("使用中语音内容：");
-    ui->labelVoice_3->setText("欢迎语音内容：");
-    ui->labelVoice_4->setText("未锁好提示语音内容：");
-    ui->labelVoice_5->setText("超时提醒语音内容：");
-    ui->labelVoice_6->setText("超时提示语音内容：");
-    ui->labelVoice_7->setText("门开提示语音内容：");
-    ui->labelVoice_8->setText("再见语音内容：");
-    ui->labelVoice_9->setText("维护中语音内容：");
+        ui->statusLabel_1->setText("使用状态：");
+        ui->statusLabel_2->setText("门状态：");
+        ui->statusLabel_3->setText("照明灯：");
+        ui->statusLabel_4->setText("防护舱状态：");
+        ui->statusLabel_5->setText("灯箱：");
+        ui->statusLabel_6->setText("闭锁状态：");
+        ui->statusLabel_7->setText("风扇：");
+        ui->statusLabel_8->setText("按钮报警状态");
+        ui->statusLabel_9->setText("切割报警状态：");
+        ui->statusLabel_10->setText("温度报警状态：");
+        ui->statusLabel_11->setText("震动报警状态：");
+        ui->statusLabel_12->setText("水浸报警状态：");
+        ui->statusLabel_13->setText("烟雾报警状态：");
+        ui->statusLabel_14->setText("玻璃破碎报警状态");
+        //语音界面更设置
+        ui->labelVoice_1->setText("拉门提示语音内容：");
+        ui->labelVoice_2->setText("使用中语音内容：");
+        ui->labelVoice_3->setText("欢迎语音内容：");
+        ui->labelVoice_4->setText("未锁好提示语音内容：");
+        ui->labelVoice_5->setText("超时提醒语音内容：");
+        ui->labelVoice_6->setText("超时提示语音内容：");
+        ui->labelVoice_7->setText("门开提示语音内容：");
+        ui->labelVoice_8->setText("再见语音内容：");
+        ui->labelVoice_9->setText("维护中语音内容：");
 
-    ui->tableWidgetAlarmPara->setItem(7,0,new QTableWidgetItem(""));
-    ui->tableWidgetAlarmPara->setItem(8,0,new QTableWidgetItem(""));
+        ui->tableWidgetAlarmPara->setItem(7,0,new QTableWidgetItem(""));
+        ui->tableWidgetAlarmPara->setItem(8,0,new QTableWidgetItem(""));
+    }
 }
 //状态页面显示项目修改为加钞间界面
 void frmMain::changeJCJText()
 {
-    //disconnect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(slotEanbleOrDisableSlave()));
-    //connect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(btnEnOrDisAbleFangHuCang()));
-    //设置加钞间参数标签可见
-    ui->tabWidgetSlavePara->clear();
-    ui->tabWidgetSlavePara->addTab(ui->tabSlaveStatus,"运行状态");
-    ui->tabWidgetSlavePara->addTab(ui->jcjTabSlavePara,"控制参数");
-    ui->tabWidgetSlavePara->addTab(ui->tabVoicePara,"语音状态");
-    ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
-    ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
-    ui->tabWidgetSlavePara->addTab(ui->jcjtabUserPara,"用户参数");
-    //ui->tabWidgetSlavePara->setCurrentIndex(0);
+    if(windowStatus!=2)
+    {
+        windowStatus=2;
+        //disconnect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(slotEanbleOrDisableSlave()));
+        //connect(ui->btnEnOrDisAbleFangHuCang,SIGNAL(clicked(bool)),this,SLOT(btnEnOrDisAbleFangHuCang()));
+        //设置加钞间参数标签可见
+        ui->tabWidgetSlavePara->clear();
+        ui->tabWidgetSlavePara->addTab(ui->tabSlaveStatus,"运行状态");
+        ui->tabWidgetSlavePara->addTab(ui->jcjTabSlavePara,"控制参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabVoicePara,"语音状态");
+        ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
+        ui->tabWidgetSlavePara->addTab(ui->jcjtabUserPara,"用户参数");
+        //ui->tabWidgetSlavePara->setCurrentIndex(0);
 
-    ui->btnOpenDoor->setStyleSheet("background-color:rgba(0,0,0,0);border-style:none;");
-    ui->btnOpenDoor->setText("");
-    ui->btnOpenDoor->setEnabled(false);
+        ui->btnOpenDoor->setStyleSheet("background-color:rgba(0,0,0,0);border-style:none;");
+        ui->btnOpenDoor->setText("");
+        ui->btnOpenDoor->setEnabled(false);
 
-    ui->statusLabel_1->setText("工作状态：");
-    ui->statusLabel_2->setText("门状态：");
-    ui->statusLabel_3->setText("照明灯：");
-    ui->statusLabel_4->setText("设防状态：");
-    ui->statusLabel_5->setText("非法开门状态：");
-    ui->statusLabel_6->setText("闭锁状态：");
-    ui->statusLabel_7->setText("非法入侵状态：");
-    ui->statusLabel_8->setText("按钮报警状态：");
-    ui->statusLabel_9->setText("切割报警状态：");
-    ui->statusLabel_10->setText("温度报警状态：");
-    ui->statusLabel_11->setText("震动报警状态：");
-    ui->statusLabel_12->setText("水浸报警状态：");
-    ui->statusLabel_13->setText("烟雾报警状态：");
-    ui->statusLabel_14->setText("玻璃破碎报警状态：");
-    //语音界面更设置
-    ui->labelVoice_1->setText("删除提示语音内容：");
-    ui->labelVoice_2->setText("请刷卡语音内容：");
-    ui->labelVoice_3->setText("欢迎语音内容：");
-    ui->labelVoice_4->setText("未锁好提示语音内容：");
-    ui->labelVoice_5->setText("设防语音内容：");
-    ui->labelVoice_6->setText("撤防语音内容：");
-    ui->labelVoice_7->setText("注册成功语音内容：");
-    ui->labelVoice_8->setText("再见语音内容：");
-    ui->labelVoice_9->setText("主卡语音内容：");
+        ui->statusLabel_1->setText("工作状态：");
+        ui->statusLabel_2->setText("门状态：");
+        ui->statusLabel_3->setText("照明灯：");
+        ui->statusLabel_4->setText("设防状态：");
+        ui->statusLabel_5->setText("非法开门状态：");
+        ui->statusLabel_6->setText("闭锁状态：");
+        ui->statusLabel_7->setText("非法入侵状态：");
+        ui->statusLabel_8->setText("按钮报警状态：");
+        ui->statusLabel_9->setText("切割报警状态：");
+        ui->statusLabel_10->setText("温度报警状态：");
+        ui->statusLabel_11->setText("震动报警状态：");
+        ui->statusLabel_12->setText("水浸报警状态：");
+        ui->statusLabel_13->setText("烟雾报警状态：");
+        ui->statusLabel_14->setText("玻璃破碎报警状态：");
+        //语音界面更设置
+        ui->labelVoice_1->setText("删除提示语音内容：");
+        ui->labelVoice_2->setText("请刷卡语音内容：");
+        ui->labelVoice_3->setText("欢迎语音内容：");
+        ui->labelVoice_4->setText("未锁好提示语音内容：");
+        ui->labelVoice_5->setText("设防语音内容：");
+        ui->labelVoice_6->setText("撤防语音内容：");
+        ui->labelVoice_7->setText("注册成功语音内容：");
+        ui->labelVoice_8->setText("再见语音内容：");
+        ui->labelVoice_9->setText("主卡语音内容：");
 
-    ui->tableWidgetAlarmPara->setItem(7,0,new QTableWidgetItem("是否启用非法开门报警"));
-    ui->tableWidgetAlarmPara->setItem(8,0,new QTableWidgetItem("是否启用非法入侵报警"));
-    ui->tableWidgetAlarmPara->item(7,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
-    ui->tableWidgetAlarmPara->item(8,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
+        ui->tableWidgetAlarmPara->setItem(7,0,new QTableWidgetItem("是否启用非法开门报警"));
+        ui->tableWidgetAlarmPara->setItem(8,0,new QTableWidgetItem("是否启用非法入侵报警"));
+        ui->tableWidgetAlarmPara->item(7,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
+        ui->tableWidgetAlarmPara->item(8,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
+    }
 }
 //刷新状态
 void frmMain::slotupdateSlaveStatusDisplay(paraData* pdata)
@@ -4492,6 +4502,25 @@ void frmMain::on_hsVoice_valueChanged(int value)
 
 void frmMain::readModuleData()
 {
+    //读取版本号和名称
+    versionList.clear();
+    if(!query->exec("select tmodule.[Name],TMODULE.[level],TVERSIONMANAGER.[Name] as version from TMODULE join TVERSIONMANAGER ON TMODULE.[level] = TVERSIONMANAGER.[Level]"))
+    {
+        QLOG_ERROR() <<query->lastError();
+    }
+    else
+    {
+        while(query->next())
+        {
+            SlaveVersion *tempVersion = new SlaveVersion();
+
+            tempVersion->name     = query->value(0).toString();
+            tempVersion->level    = query->value(1).toInt();
+            tempVersion->version = query->value(2).toString();
+
+            versionList.append(tempVersion);
+        }
+    }
     //moduleModel->setTable("TModule");
 
     //moduleModel->setQuery(QSqlQuery("select tmodule.[Name],TMODULE.[level],TVERSIONMANAGER.[Name] as version from TMODULE join TVERSIONMANAGER ON TMODULE.[level] = TVERSIONMANAGER.[Level]",database));
@@ -5196,7 +5225,7 @@ void frmMain::slotSaveModulePara(QString name, paraData *para)
 }
 void frmMain::slotDeleteModule(QModelIndex index)
 {
-    QString name = moduleModel->data(index).toString();
+    QString name = versionList.at(index.row())->name;
     delete_TModule_Sql(name);
     delete_TMparamater_Sql(name);
     for(int i=0;i<moduleList.count();i++)

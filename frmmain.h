@@ -260,6 +260,7 @@ private:
     QPoint mousePoint;
     bool mousePressed;
     bool max;
+    quint8 windowStatus;//1-防护舱状态 2－加钞间状态 作用：防止窗口多次刷新
     CCycleBuffer* comBuffer;
     QPixmap currFrame;
     QRect location;
