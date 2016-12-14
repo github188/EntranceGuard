@@ -151,9 +151,10 @@ frmMain::frmMain(QWidget *parent) :
                          "LPMWelcome,LPMUsing,LPMMaintaining,"
                          "Volume,Welcome,Use,Maintaining,Reminding,Timeout,Goodbye,DoorOpen,NotLocked,SlideDoor,"
                          "btnAlarmEnable,cutAlarmEnable,zhengDongAlarmEnable,yanWuAlarmEnable,"
-                         "boLiAlarmEnable,shuiQinAlarmEnable,tempAlarmEnable)"
+                         "boLiAlarmEnable,shuiQinAlarmEnable,tempAlarmEnable,userNum,systemAlarmStatus,setGuardDelayTime,"
+                         "isMonitorOrNot,inDoorModel,outDoorModel,doorCiAlarmEnable,existManAlarmEnable)"
                          " values "
-                         "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     insert_TBelong_sql = "insert into TBelong values (?,?)";
     insert_TVoice_sql = "insert into TVoice values (?,?,?,?)";
     insert_TModule_sql = "insert into TModule values (?,?)";
@@ -205,7 +206,10 @@ frmMain::frmMain(QWidget *parent) :
                        "Reminding=:reminding,Timeout=:timeout,Goodbye=:goodbye,DoorOpen=:doorOpen,"
                        "NotLocked=:notLocked,Use=:using,SlideDoor=:slideDoor,"
                        "btnAlarmEnable=:btnAlarmEnable,cutAlarmEnable=:cutAlarmEnable,zhengDongAlarmEnable=:zhengDongAlarmEnable,yanWuAlarmEnable=:yanWuAlarmEnable,"
-                       "boLiAlarmEnable=:boLiAlarmEnable,shuiQinAlarmEnable=:shuiQinAlarmEnable,tempAlarmEnable=:tempAlarmEnable"
+                       "boLiAlarmEnable=:boLiAlarmEnable,shuiQinAlarmEnable=:shuiQinAlarmEnable,tempAlarmEnable=:tempAlarmEnable,"
+                       "userNum=:userNum,systemAlarmStatus=:systemAlarmStatus,setGuardDelayTime=:setGuardDelayTime,"
+                       "isMonitorOrNot=:isMonitorOrNot,inDoorModel=:inDoorModel,outDoorModel=:outDoorModel,"
+                       "doorCiAlarmEnable=:doorCiAlarmEnable,existManAlarmEnable=:existManAlarmEnable"
                        " where Name = :name";
     update_TModule_sql = "update TModule set Name=:name where level = 2";
     update_TPuser_sql = "update TPermit set permitEditSystemPar=:permitEditSystemPar,"
@@ -368,7 +372,7 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(frmUseModule,SIGNAL(sigSelectModule(QModelIndex)),this,SLOT(slotUseModule(QModelIndex)));
     connect(frmManagerModel,SIGNAL(sigInParaModule(paraModule*)),this,SLOT(slotSaveModulePara(paraModule*)));
-    connect(frmManagerModel,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModulePara(QString,paraData*)));
+    connect(frmManagerModel,SIGNAL(sigSaveModulePara(paraModule*)),this,SLOT(slotSaveParaModule(paraModule*)));
     connect(frmEditUserPwd,SIGNAL(sigUpdateUserpwd()),this,SLOT(slotUpdateUserPwd()));
     connect(frmEditUserPermission,SIGNAL(sigWriteUserPermitPara(UserPermission*)),this,SLOT(slotEditUserPermission(UserPermission*)));
     //加钞间连接
@@ -956,6 +960,17 @@ void frmMain::InitForm()
             module->pdat.alarmPara.boLiAlarmEnable = query->value(35).toBool();
             module->pdat.alarmPara.shuiQinAlarmEnable = query->value(36).toBool();
             module->pdat.alarmPara.tempAlarmEnable = query->value(37).toBool();
+            /***************************/
+            //加钞间独有的参数
+            module->pdat.fangHuCang.userNum = query->value(38).toInt();;             //D2 刷卡人数（1-10人）N+1，如果设置为0表示单卡进出，不为0表示多卡
+            module->pdat.fangHuCang.systemAlarmStatus = query->value(39).toInt();;   //D3 设置系统报警状态：0 - 撤防；1 - 设防
+            module->pdat.fangHuCang.setGuardDelayTime = query->value(40).toInt();;   //D4 设防延时时间（1-90秒钟）
+            module->pdat.fangHuCang.isMonitorOrNot = query->value(41).toInt();;      //D5 是否有人值守：0 - 无人值守；1 - 有人值守
+            module->pdat.fangHuCang.inDoorModel = query->value(42).toInt();;         //D6: 进门方式 0-指纹；1-ID卡；2-TM卡；3-ID卡+密码；4-密码
+            module->pdat.fangHuCang.outDoorModel = query->value(43).toInt();;
+            //报警参数
+            module->pdat.alarmPara.doorCiAlarmEnable = query->value(44).toBool();;      //非法开门报警
+            module->pdat.alarmPara.existManAlarmEnable = query->value(45).toBool();;  //非法入侵报警
             moduleList.append(module);
         }
     }
@@ -1037,6 +1052,22 @@ void frmMain::InitForm()
             tempVersion->name     = query->value(1).toString();
 
             versioninfoList.append(tempVersion);
+        }
+    }
+
+    for(int i=0;i<moduleList.length();i++)
+    {
+        QString moduleName = moduleList.at(i)->name;
+        if(!query->exec("select level from TModule where Name='"+moduleName+"'"))
+        {
+            QLOG_ERROR() <<query->lastError();
+        }
+        else
+        {
+            while(query->next())
+            {
+                moduleList.at(i)->level = query->value(0).toInt();
+            }
         }
     }
     /*
@@ -2968,7 +2999,15 @@ void frmMain::Insert_TMparamater_Sql(QString name,paraData *pdat)
     query->addBindValue(pdat->alarmPara.boLiAlarmEnable);
     query->addBindValue(pdat->alarmPara.shuiQinAlarmEnable);
     query->addBindValue(pdat->alarmPara.tempAlarmEnable);
-
+    //加钞间新增参数
+    query->addBindValue(pdat->fangHuCang.userNum);
+    query->addBindValue(pdat->fangHuCang.systemAlarmStatus);
+    query->addBindValue(pdat->fangHuCang.setGuardDelayTime);
+    query->addBindValue(pdat->fangHuCang.isMonitorOrNot);
+    query->addBindValue(pdat->fangHuCang.inDoorModel);
+    query->addBindValue(pdat->fangHuCang.outDoorModel);
+    query->addBindValue(pdat->alarmPara.doorCiAlarmEnable);
+    query->addBindValue(pdat->alarmPara.existManAlarmEnable);
     if(!query->exec())
     {
         QLOG_ERROR() <<query->lastError();
@@ -2994,18 +3033,18 @@ void frmMain::Insert_TBelong_Sql(Equipment *temp)
     }
 }
 //插入数据库模板表
-void frmMain::Insert_TModule_Sql(QString name)
+void frmMain::Insert_TModule_Sql(paraModule *pModule)
 {
-    if(checkExist("TModule","Name",name))
+    if(checkExist("TModule","Name",pModule->name))
     {
         return;
     }
     //插入数据库父表
     query->prepare(insert_TModule_sql);
-    //Mac地址
-    query->addBindValue(name);
-    //在树中父的名称
-    query->addBindValue(2);
+    //名称
+    query->addBindValue(pModule->name);
+    //适用版本等级
+    query->addBindValue(pModule->level);
 
     if(!query->exec())
     {
@@ -4069,6 +4108,17 @@ void frmMain::Update_TMparamater_Sql(QString name,paraData *pdat)
     query->bindValue(":boLiAlarmEnable",alarm.boLiAlarmEnable);
     query->bindValue(":shuiQinAlarmEnable",alarm.shuiQinAlarmEnable);
     query->bindValue(":tempAlarmEnable",alarm.tempAlarmEnable);
+    //加钞间参数
+    query->bindValue(":userNum", fhcPara.userNum);
+    query->bindValue(":systemAlarmStatus", fhcPara.systemAlarmStatus);
+    query->bindValue(":setGuardDelayTime", fhcPara.setGuardDelayTime);
+    query->bindValue(":isMonitorOrNot", fhcPara.isMonitorOrNot);
+    query->bindValue(":inDoorModel", fhcPara.inDoorModel);
+    query->bindValue(":outDoorModel", fhcPara.outDoorModel);
+
+    query->bindValue(":doorCiAlarmEnable",alarm.doorCiAlarmEnable);
+    query->bindValue(":existManAlarmEnable",alarm.existManAlarmEnable);
+
     query->bindValue(":name", name);
 
     if(!query->exec())
@@ -5145,12 +5195,14 @@ void frmMain::slotShowManagerModuleWindows()
         return;
     }
     frmManagerModel->setVoiceModel(voiceModel);
-    frmManagerModel->exec();
+    frmManagerModel->setModal(true);
+    frmManagerModel->show();
 }
 void frmMain::slotShowUseModuleWindows()
 {
-    //frmUseModule->show();
-    frmUseModule->exec();
+    frmUseModule->setModal(true);
+    frmUseModule->show();
+    //frmUseModule->exec();
 }
 void frmMain::slotShowAddModuleWindows()
 {/*
@@ -5197,28 +5249,25 @@ void frmMain::slotUpdateModuleSoundName(paraData* pdata)
 {
     getSlaveSoundName(pdata);
 }
-void frmMain::slotSaveModulePara(QString name, paraData *para)
+void frmMain::slotSaveParaModule(paraModule * pModule)
 {
-    if(checkExist("TMparamater","Name",name))
+    if(checkExist("TMparamater","Name",pModule->name))
     {
-        Update_TMparamater_Sql(name,para);
+        Update_TMparamater_Sql(pModule->name,&pModule->pdat);
         //Update_TModule_sql(name);
     }
     else
     {
-        paraModule * tempModule = new paraModule();
-        tempModule->name = name;
-        tempModule->pdat = *para;
-        moduleList.append(tempModule);
-        Insert_TMparamater_Sql(name,para);
-        Insert_TModule_Sql(name);
+        moduleList.append(pModule);
+        Insert_TMparamater_Sql(pModule->name,&pModule->pdat);
+        Insert_TModule_Sql(pModule);
     }
     for(int i=0;i<9;i++)
     {
         QString fileName="";
-        QString md5 = para->soundMd5[i].toHex();
+        QString md5 = pModule->pdat.soundMd5[i].toHex();
         Select_TVoice_FileName(fileName,md5);
-        para->voiceFileName[i]=fileName;
+        pModule->pdat.voiceFileName[i]=fileName;
 
     }
     readModuleData();
@@ -5343,6 +5392,7 @@ void frmMain::addModuleVoice(QString filePath,QString name)
     {
         Insert_TVoice_Sql(name,fileName,filemd5.toHex());
     }
+
     readVoiceData();//重新读取音乐库
 }
 //导入的参数写入数据库
@@ -5357,7 +5407,7 @@ void frmMain::slotSaveModulePara(paraModule * tempModule)
     {
         moduleList.append(tempModule);
         Insert_TMparamater_Sql(tempModule->name,&tempModule->pdat);
-        Insert_TModule_Sql(tempModule->name);
+        Insert_TModule_Sql(tempModule);
     }
     //将导入的音乐写入音乐库，如果存在则不导入 最后全部删除
     for(int i=0;i<9;i++)
@@ -5365,6 +5415,7 @@ void frmMain::slotSaveModulePara(paraModule * tempModule)
         QString filepath="./temp/"+QString::number(i)+".mp3";
         addModuleVoice(filepath,tempModule->pdat.soundName[i]);
     }
+    QLOG_INFO()<<"语音内容保存完成，重新读取模板库";
     readModuleData();
 }
 

@@ -19,7 +19,7 @@ FrmManagerModule::FrmManagerModule(QWidget *parent) :
     connect(ui->btnDelete,SIGNAL(clicked(bool)),this,SLOT(btnDeleteModule()));
     connect(ui->btnIn,SIGNAL(clicked(bool)),this,SLOT(slotbtnIn()));
     connect(ui->btnOut,SIGNAL(clicked(bool)),this,SLOT(slotbtnOut()));
-    connect(frmModulePara,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
+    connect(frmModulePara,SIGNAL(sigSaveModulePara(paraModule*)),this,SLOT(slotSaveModule(paraModule*)));
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
@@ -114,21 +114,8 @@ void FrmManagerModule::on_btnMenu_Min_clicked()
 }
 void FrmManagerModule::btnAddModule()
 {
-    /*
-    //新建模板
-    //emit sigAddParaModule();
-    paraData *para = new paraData();
-    FrmModulePara *frm= new FrmModulePara();
-    connect(frm,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
-
-    frm->setVoiceModel(voiceModel);
-    frm->SetPara("新建模板",para,0);
-    frm->SetTitleText("新建模板参数");
-    frm->exec();
-    delete para;
-    */
     FrmSelectModuleVersion *modelVersion = new FrmSelectModuleVersion();
-    connect(modelVersion,SIGNAL(sigSaveModule(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
+    connect(modelVersion,SIGNAL(sigSaveModule(paraModule*)),this,SLOT(slotSaveModule(paraModule*)));
     modelVersion->slotSetVersionInfoList(versionInfoList);
     modelVersion->setVoiceModel(voiceModel);
     modelVersion->setModal(true);//半模态调用对话框
@@ -149,35 +136,41 @@ void FrmManagerModule::btnEditPara()
     QString name = slaveVersionList.at(index.row())->name;
     quint8 level = slaveVersionList.at(index.row())->level;
     paraData * tempPara=NULL;
-    switch (level) {
-    case 1:
-
-        break;
-    case 2:
+    paraModule *pModule = new paraModule();
+    FrmModulePara *frm= new FrmModulePara();
+    connect(frm,SIGNAL(sigSaveModulePara(paraModule*)),this,SLOT(slotSaveModule(paraModule*)));
+    for(int i=0;i<moduleList.count();i++)
     {
-        for(int i=0;i<moduleList.count();i++)
+        if(moduleList.at(i)->name == name)
         {
-            if(moduleList.at(i)->name == name)
-            {
-                tempPara = &moduleList.at(i)->pdat;
-                break;
-            }
+            pModule= moduleList.at(i);
+            tempPara = &moduleList.at(i)->pdat;
+            break;
         }
-        if(tempPara==NULL)
-            return;
+    }
+    if(tempPara==NULL)
+        return;
 
-        FrmModulePara *frm= new FrmModulePara();
-        connect(frm,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
-        frm->SetPara(name,tempPara,1);
-        frm->setVoiceModel(voiceModel);
-        frm->SetTitleText("修改模板参数");
-        frm->exec();
+    switch (level) {
+    case 1://加钞间
+    {
+
+        frm->setModel(1);
+
+    }
+        break;
+    case 2://防护舱
+    {
+        frm->setModel(0);
     }
         break;
     default:
         break;
     }
-
+    frm->SetPara(name,pModule,1);
+    frm->setVoiceModel(voiceModel);
+    frm->SetTitleText("修改模板参数");
+    frm->exec();
 }
 void FrmManagerModule::setVoiceModel(QSqlTableModel *model)
 {
@@ -187,9 +180,9 @@ void FrmManagerModule::slotSetVersionInfoList(QList<VersionInfo*> list)
 {
     versionInfoList = list;
 }
-void FrmManagerModule::slotSaveModule(QString name,paraData *data)
+void FrmManagerModule::slotSaveModule(paraModule *data)
 {
-    emit sigSaveModulePara(name,data);
+    emit sigSaveModulePara(data);
 }
 void FrmManagerModule::slotSetTableModel(QList<SlaveVersion *> versionList, QList<paraModule*> list)
 {
@@ -226,7 +219,8 @@ void FrmManagerModule::slotbtnIn()
         QDataStream out(&file);
 
         out >>module->name;
-
+        out >>module->level;
+        //防护舱参数
         out >>module->pdat.fangHuCang.openLockTime;
         out >>module->pdat.fangHuCang.OptBussinessTime;
         out >>module->pdat.fangHuCang.timeOutRemind;
@@ -238,7 +232,24 @@ void FrmManagerModule::slotbtnIn()
         out >>module->pdat.fangHuCang.lockModel;
         out >>module->pdat.fangHuCang.kongCangLockorNot;
         out >>module->pdat.fangHuCang.fangQiewarnning;
-
+        //加钞间参数
+        out >>module->pdat.fangHuCang.userNum;
+        out >>module->pdat.fangHuCang.systemAlarmStatus;
+        out >>module->pdat.fangHuCang.setGuardDelayTime;
+        out >>module->pdat.fangHuCang.isMonitorOrNot;
+        out >>module->pdat.fangHuCang.inDoorModel;
+        out >>module->pdat.fangHuCang.outDoorModel;
+        //报警设置
+        out >>module->pdat.alarmPara.boLiAlarmEnable;
+        out >>module->pdat.alarmPara.btnAlarmEnable;
+        out >>module->pdat.alarmPara.cutAlarmEnable;
+        out >>module->pdat.alarmPara.doorCiAlarmEnable;
+        out >>module->pdat.alarmPara.existManAlarmEnable;
+        out >>module->pdat.alarmPara.shuiQinAlarmEnable;
+        out >>module->pdat.alarmPara.tempAlarmEnable;
+        out >>module->pdat.alarmPara.yanWuAlarmEnable;
+        out >>module->pdat.alarmPara.zhengDongAlarmEnable;
+        //照明参数
         out >>module->pdat.zhaoMing.Model;
         out >>module->pdat.zhaoMing.startHour;
         out >>module->pdat.zhaoMing.startMinute;
@@ -480,7 +491,7 @@ void FrmManagerModule::slotbtnOut()
             return;
         }
         QDataStream out(&file);
-        QString name = tableModel->data(ui->tableWidget->currentIndex()).toString();
+        QString name = slaveVersionList.at(ui->tableWidget->currentIndex().row())->name;
         paraModule * module=NULL;
         for(int i=0;i<moduleList.count();i++)
         {
@@ -494,6 +505,8 @@ void FrmManagerModule::slotbtnOut()
             return;
 
         out<<name;
+        out<<module->level;
+        //防护舱参数
         out<<module->pdat.fangHuCang.openLockTime;
         out<<module->pdat.fangHuCang.OptBussinessTime;
         out<<module->pdat.fangHuCang.timeOutRemind;
@@ -505,7 +518,24 @@ void FrmManagerModule::slotbtnOut()
         out<<module->pdat.fangHuCang.lockModel;
         out<<module->pdat.fangHuCang.kongCangLockorNot;
         out<<module->pdat.fangHuCang.fangQiewarnning;
-
+        //加钞间参数
+        out<<module->pdat.fangHuCang.userNum;
+        out<<module->pdat.fangHuCang.systemAlarmStatus;
+        out<<module->pdat.fangHuCang.setGuardDelayTime;
+        out<<module->pdat.fangHuCang.isMonitorOrNot;
+        out<<module->pdat.fangHuCang.inDoorModel;
+        out<<module->pdat.fangHuCang.outDoorModel;
+        //报警设置
+        out<<module->pdat.alarmPara.boLiAlarmEnable;
+        out<<module->pdat.alarmPara.btnAlarmEnable;
+        out<<module->pdat.alarmPara.cutAlarmEnable;
+        out<<module->pdat.alarmPara.doorCiAlarmEnable;
+        out<<module->pdat.alarmPara.existManAlarmEnable;
+        out<<module->pdat.alarmPara.shuiQinAlarmEnable;
+        out<<module->pdat.alarmPara.tempAlarmEnable;
+        out<<module->pdat.alarmPara.yanWuAlarmEnable;
+        out<<module->pdat.alarmPara.zhengDongAlarmEnable;
+        //照明参数
         out<<module->pdat.zhaoMing.Model;
         out<<module->pdat.zhaoMing.startHour;
         out<<module->pdat.zhaoMing.startMinute;

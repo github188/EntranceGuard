@@ -93,7 +93,7 @@ public slots:
     void slotBtnPlaySound(QString name);
     void slotShowAddModuleWindows();
     void slotShowEditModuleWindows(QModelIndex index);
-    void slotSaveModulePara(QString name, paraData *para);
+    void slotSaveParaModule(paraModule *pModule);
     void slotSaveModulePara(paraModule * tempModule);
     void slotShowEditZhaoMingParaWindow();
     void slotShowEditFangHuCangParaWindow();
@@ -484,7 +484,7 @@ private:
     void Insert_TMparamater_Sql(QString name, paraData *pdat);
     void Update_TMparamater_Sql(QString name, paraData *pdat);
     void Update_TModule_sql(QString name);
-    void Insert_TModule_Sql(QString name);
+    void Insert_TModule_Sql(paraModule *pModule);
     void addModuleVoice(QString filePath,QString name);
     void readSettings();
     void writeSettings();

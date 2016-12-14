@@ -11,6 +11,7 @@ FrmModulePara::FrmModulePara(QWidget *parent) :
     ui->setupUi(this);
     pdat = NULL;
     voiceModel=NULL;
+    model=0;
     //frmEditSlavePara = new frmEditParamater();
     //frmEditZhaoMing = new frmEditZhaoMingPara();
     //frmeditalarmpara = new frmEditAlarmPara();
@@ -80,6 +81,25 @@ FrmModulePara::FrmModulePara(QWidget *parent) :
     {
         ui->tableWidgetAlarmPara->item(i,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
     }
+    ui->tableWidgeCjc->setColumnCount(2);
+    ui->tableWidgeCjc->setRowCount(7);
+    ui->tableWidgeCjc->setColumnWidth(0,140);
+    ui->tableWidgeCjc->setColumnWidth(1,90);
+
+    ui->tableWidgeCjc->horizontalHeader()->hide();//隐藏表头
+    ui->tableWidgeCjc->verticalHeader()->hide();//隐藏行号
+    ui->tableWidgeCjc->setItem(0,0,new QTableWidgetItem("开锁延时"));
+    ui->tableWidgeCjc->setItem(1,0,new QTableWidgetItem("设防延时时间"));
+    ui->tableWidgeCjc->setItem(2,0,new QTableWidgetItem("刷卡人数"));
+    ui->tableWidgeCjc->setItem(3,0,new QTableWidgetItem("进门方式"));
+    ui->tableWidgeCjc->setItem(4,0,new QTableWidgetItem("出门方式"));
+    ui->tableWidgeCjc->setItem(5,0,new QTableWidgetItem("系统报警状态"));
+    ui->tableWidgeCjc->setItem(6,0,new QTableWidgetItem("值守状态"));
+    //设置单元格右对齐
+    for(int i=0;i<7;i++)
+    {
+        ui->tableWidgeCjc->item(i,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
+    }
     InitStyle();
     connect(ui->btnOK,SIGNAL(clicked(bool)),this,SLOT(btnOK()));
     connect(ui->btnCancel,SIGNAL(clicked(bool)),this,SLOT(btnCancel()));
@@ -107,6 +127,7 @@ FrmModulePara::FrmModulePara(QWidget *parent) :
     //connect(frmEditSlavePara,SIGNAL(sigSaveFangHuCangPara(paraFangHuCang*)),this,SLOT(slotSetFangHuCangPara(paraFangHuCang*)));
     //connect(frmEditZhaoMing,SIGNAL(sigSaveZhaoMingPara(paraZhaoMing*)),this,SLOT(slotSetZhaoMingPara(paraZhaoMing*)));
     //connect(frmSelectSound,SIGNAL(sigoperate(QString)),this,SLOT(sloteditedName(QString)));
+    connect(ui->btnSetCjcPara,SIGNAL(clicked(bool)),this,SLOT(slotShowSetCjcParaDialog()));
 }
 
 FrmModulePara::~FrmModulePara()
@@ -189,7 +210,8 @@ void FrmModulePara::on_btnMenu_Min_clicked()
 }
 void FrmModulePara::btnOK()
 {
-    emit sigSaveModulePara(ui->leName->text(), pdat);
+    pModule->name = ui->leName->text();
+    emit sigSaveModulePara(pModule);
     this->close();
 }
 void FrmModulePara::btnCancel()
@@ -224,18 +246,38 @@ void FrmModulePara::DisplayZhaoMingPara()
 }
 void FrmModulePara::DisplayFangHuCangPara()
 {
-    ui->tableWidgetFangHuCang->setItem(0,1,new QTableWidgetItem(pdat->fangHuCang.getlockModel()));
-    ui->tableWidgetFangHuCang->setItem(1,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.openLockTime)+"秒钟"));
-    ui->tableWidgetFangHuCang->setItem(2,1,new QTableWidgetItem(pdat->fangHuCang.signalModel?"常开":"常闭"));
-    ui->tableWidgetFangHuCang->setItem(3,1,new QTableWidgetItem(pdat->fangHuCang.peopleEquModel?"被动":"主动"));
-    ui->tableWidgetFangHuCang->setItem(4,1,new QTableWidgetItem(pdat->fangHuCang.kongCangLockorNot?"是":"否"));
-    ui->tableWidgetFangHuCang->setItem(5,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.fanRunTemperature)+"度"));
+    switch (model)
+    {
+    case 0://防护舱
+    {
+        ui->tableWidgetFangHuCang->setItem(0,1,new QTableWidgetItem(pdat->fangHuCang.getlockModel()));
+        ui->tableWidgetFangHuCang->setItem(1,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.openLockTime)+"秒钟"));
+        ui->tableWidgetFangHuCang->setItem(2,1,new QTableWidgetItem(pdat->fangHuCang.signalModel?"常开":"常闭"));
+        ui->tableWidgetFangHuCang->setItem(3,1,new QTableWidgetItem(pdat->fangHuCang.peopleEquModel?"被动":"主动"));
+        ui->tableWidgetFangHuCang->setItem(4,1,new QTableWidgetItem(pdat->fangHuCang.kongCangLockorNot?"是":"否"));
+        ui->tableWidgetFangHuCang->setItem(5,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.fanRunTemperature)+"度"));
 
-    ui->tableWidgetFangHuCang->setItem(0,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.noManOpenLockTime)+"秒钟"));
-    ui->tableWidgetFangHuCang->setItem(1,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.OptBussinessTime)+"分钟"));
-    ui->tableWidgetFangHuCang->setItem(2,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.timeOutRemind)+"秒钟"));
-    ui->tableWidgetFangHuCang->setItem(3,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.warnningDelayTime)+"秒钟"));
-    ui->tableWidgetFangHuCang->setItem(4,3,new QTableWidgetItem(pdat->fangHuCang.fangQiewarnning?"启动":"不启用"));
+        ui->tableWidgetFangHuCang->setItem(0,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.noManOpenLockTime)+"秒钟"));
+        ui->tableWidgetFangHuCang->setItem(1,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.OptBussinessTime)+"分钟"));
+        ui->tableWidgetFangHuCang->setItem(2,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.timeOutRemind)+"秒钟"));
+        ui->tableWidgetFangHuCang->setItem(3,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.warnningDelayTime)+"秒钟"));
+        ui->tableWidgetFangHuCang->setItem(4,3,new QTableWidgetItem(pdat->fangHuCang.fangQiewarnning?"启动":"不启用"));
+    }
+        break;
+    case 1://加钞间
+    {
+        ui->tableWidgeCjc->setItem(0,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.openLockTime)+"秒钟"));
+        ui->tableWidgeCjc->setItem(1,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.setGuardDelayTime)+"秒钟"));
+        ui->tableWidgeCjc->setItem(2,1,new QTableWidgetItem(QString::number(pdat->fangHuCang.userNum)+"+1"));
+        ui->tableWidgeCjc->setItem(3,1,new QTableWidgetItem(pdat->fangHuCang.getInDoorModel()));
+        ui->tableWidgeCjc->setItem(4,1,new QTableWidgetItem(pdat->fangHuCang.getOutDoorModel()));
+        ui->tableWidgeCjc->setItem(5,1,new QTableWidgetItem(pdat->fangHuCang.systemAlarmStatus?"设防":"撤防"));
+        ui->tableWidgeCjc->setItem(6,1,new QTableWidgetItem(pdat->fangHuCang.isMonitorOrNot?"有人值守":"无人值守"));
+    }
+        break;
+    case 0xff://bootloader
+        break;
+    }
 }
 void FrmModulePara::DisplayAlarmPara()
 {
@@ -247,9 +289,59 @@ void FrmModulePara::DisplayAlarmPara()
     ui->tableWidgetAlarmPara->setItem(5,1,new QTableWidgetItem(pdat->alarmPara.shuiQinAlarmEnable?"启用":"不启用"));
     ui->tableWidgetAlarmPara->setItem(6,1,new QTableWidgetItem(pdat->alarmPara.tempAlarmEnable?"启用":"不启用"));
 }
-//mod-0新建 名称可以编辑 1－修改模板 名称不可以修改
-void FrmModulePara::SetPara(QString name,paraData* pdata,quint8 mod)
+void FrmModulePara::setModel(quint8 mod)
 {
+    model=mod;
+    switch(mod)
+    {
+    case 0://防护舱
+    {
+        ui->tabWidgetSlavePara->clear();
+        ui->tabWidgetSlavePara->addTab(ui->tabSlavePara,"控制参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabVoicePara,"语音状态");
+        ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
+        //语音界面更设置
+        ui->labelVoice_1->setText("拉门提示语音内容：");
+        ui->labelVoice_2->setText("使用中语音内容：");
+        ui->labelVoice_3->setText("欢迎语音内容：");
+        ui->labelVoice_4->setText("未锁好提示语音内容：");
+        ui->labelVoice_5->setText("超时提醒语音内容：");
+        ui->labelVoice_6->setText("超时提示语音内容：");
+        ui->labelVoice_7->setText("门开提示语音内容：");
+        ui->labelVoice_8->setText("再见语音内容：");
+        ui->labelVoice_9->setText("维护中语音内容：");
+    }
+        break;
+    case 1://加钞间
+    {
+        ui->tabWidgetSlavePara->clear();
+        ui->tabWidgetSlavePara->addTab(ui->tabSlaveJCJPara,"控制参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabVoicePara,"语音状态");
+        ui->tabWidgetSlavePara->addTab(ui->tabLedPara,"LED参数");
+        ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
+
+        //语音界面更设置
+        ui->labelVoice_1->setText("删除提示语音内容：");
+        ui->labelVoice_2->setText("请刷卡语音内容：");
+        ui->labelVoice_3->setText("欢迎语音内容：");
+        ui->labelVoice_4->setText("未锁好提示语音内容：");
+        ui->labelVoice_5->setText("设防语音内容：");
+        ui->labelVoice_6->setText("撤防语音内容：");
+        ui->labelVoice_7->setText("注册成功语音内容：");
+        ui->labelVoice_8->setText("再见语音内容：");
+        ui->labelVoice_9->setText("主卡语音内容：");
+    }
+        break;
+    default:
+
+        break;
+    }
+}
+//mod-0新建 名称可以编辑 1－修改模板 名称不可以修改
+void FrmModulePara::SetPara(QString name, paraModule *p_Module, quint8 mod)
+{
+    pModule=p_Module;
     ui->leName->setText(name);
     switch(mod)
     {
@@ -263,17 +355,17 @@ void FrmModulePara::SetPara(QString name,paraData* pdata,quint8 mod)
         ui->leName->setReadOnly(false);
         break;
     }
-    if(pdata)
+    if(&(pModule->pdat))
     {
-        pdat = pdata;
+        pdat = &pModule->pdat;
         emit sigUpdateSoundName(pdat);
         DisplayZhaoMingPara();
         DisplayFangHuCangPara();
         DisplayAlarmPara();
         DisplaySoundName();
-        ui->txtBrowse0->setText(pdata->ledText[0]);
-        ui->txtBrowse1->setText(pdata->ledText[1]);
-        ui->txtBrowse2->setText(pdata->ledText[2]);
+        ui->txtBrowse0->setText(pdat->ledText[0]);
+        ui->txtBrowse1->setText(pdat->ledText[1]);
+        ui->txtBrowse2->setText(pdat->ledText[2]);
     }
 }
 void FrmModulePara::setVoiceModel(QSqlTableModel *model)
@@ -514,4 +606,29 @@ void FrmModulePara::findfileName(QString &fileName,QString &md5)
             md5 = voiceLibrary.at(i).md5;
         }
     }
+}
+void FrmModulePara::slotShowSetCjcParaDialog()
+{
+   if(pdat!=NULL)
+   {
+       //frmEditParamater *frmEditSlavePara = new frmEditParamater();
+       //frmEditSlavePara->initPara(pdat->fangHuCang,1);
+       //connect(frmEditSlavePara,SIGNAL(sigSaveFangHuCangPara(paraFangHuCang*)),this,SLOT(slotSetFangHuCangPara(paraFangHuCang*)));
+       //frmEditSlavePara->exec();
+       //delete frmEditSlavePara;
+       FrmEditCJCWorkPara *frmEditCjcWorkPara = new FrmEditCJCWorkPara();
+       frmEditCjcWorkPara->initPara(pdat->fangHuCang,0);
+       connect(frmEditCjcWorkPara,SIGNAL(sigWriteCjcWorkPara(paraFangHuCang*)),this,SLOT(slotSetJCJPara(paraFangHuCang*)));
+       frmEditCjcWorkPara->setModal(true);
+       frmEditCjcWorkPara->show();
+   }
+   else
+   {
+       //弹出错误提示
+   }
+}
+void FrmModulePara::slotSetJCJPara(paraFangHuCang * data)
+{
+    pdat->fangHuCang = *data;
+    DisplayFangHuCangPara();
 }

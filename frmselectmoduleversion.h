@@ -37,16 +37,17 @@ private:
     bool max;
     QRect location;
     QSqlTableModel *voiceModel;
+    QList<VersionInfo*> versionInfoList;
     void InitStyle();
 signals:
-    void sigSaveModule(QString,paraData*);
+    void sigSaveModule(paraModule *para);
 private slots:
     void on_btnMenu_Close_clicked();
     void on_btnMenu_Max_clicked();
     void on_btnMenu_Min_clicked();
     void on_btnOk_clicked();
     void btnCancel();
-    void slotSaveModule(QString name,paraData* para);
+    void slotSaveModule(paraModule *para);
 public slots:
     void slotSetVersionInfoList(QList<VersionInfo*> list);
 };

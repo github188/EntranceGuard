@@ -306,7 +306,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tabSlavePara">
          <attribute name="title">
@@ -608,6 +608,103 @@
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="tabSlaveJCJPara">
+         <attribute name="title">
+          <string>控制参数</string>
+         </attribute>
+         <widget class="QWidget" name="layoutWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>322</width>
+            <height>241</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_37">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_46">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_38">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>工作参数：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_42">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="tableWidgeCjc">
+               <property name="minimumSize">
+                <size>
+                 <width>235</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>491</width>
+                 <height>220</height>
+                </size>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: 0px solid #B8B8B8;</string>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::NoSelection</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_47">
+             <item>
+              <spacer name="verticalSpacer_11">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>148</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnSetCjcPara">
+               <property name="text">
+                <string>修改参数</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </widget>
         <widget class="QWidget" name="tabVoicePara">
          <attribute name="title">
           <string>语音参数</string>
@@ -708,7 +805,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_13">
                      <item>
-                      <widget class="QLabel" name="label_22">
+                      <widget class="QLabel" name="labelVoice_1">
                        <property name="text">
                         <string>拉门提示语音内容：</string>
                        </property>
@@ -755,7 +852,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_15">
                      <item>
-                      <widget class="QLabel" name="label_23">
+                      <widget class="QLabel" name="labelVoice_2">
                        <property name="text">
                         <string>使用中语音内容：</string>
                        </property>
@@ -802,7 +899,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_8">
                      <item>
-                      <widget class="QLabel" name="label_24">
+                      <widget class="QLabel" name="labelVoice_3">
                        <property name="text">
                         <string>欢迎语音内容：</string>
                        </property>
@@ -856,7 +953,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_14">
                      <item>
-                      <widget class="QLabel" name="label_25">
+                      <widget class="QLabel" name="labelVoice_4">
                        <property name="text">
                         <string>未锁好提示语音内容：</string>
                        </property>
@@ -903,7 +1000,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_16">
                      <item>
-                      <widget class="QLabel" name="label_26">
+                      <widget class="QLabel" name="labelVoice_5">
                        <property name="text">
                         <string>超时提醒语音内容：</string>
                        </property>
@@ -950,7 +1047,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_18">
                      <item>
-                      <widget class="QLabel" name="label_27">
+                      <widget class="QLabel" name="labelVoice_6">
                        <property name="text">
                         <string>超时提示语音内容：</string>
                        </property>
@@ -1004,7 +1101,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_20">
                      <item>
-                      <widget class="QLabel" name="label_28">
+                      <widget class="QLabel" name="labelVoice_7">
                        <property name="text">
                         <string>门开提示语音内容：</string>
                        </property>
@@ -1051,7 +1148,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_22">
                      <item>
-                      <widget class="QLabel" name="label_29">
+                      <widget class="QLabel" name="labelVoice_8">
                        <property name="text">
                         <string>再见语音内容：</string>
                        </property>
@@ -1098,7 +1195,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_24">
                      <item>
-                      <widget class="QLabel" name="label_30">
+                      <widget class="QLabel" name="labelVoice_9">
                        <property name="text">
                         <string>维护中语音内容：</string>
                        </property>

@@ -7,6 +7,8 @@
 #include "../frmeditparamater.h"
 #include "../frmeditzhaomingpara.h"
 #include "../frmselectsound.h"
+#include "../frmeditcjcworkpara.h"
+#include "../DATA/paramodule.h"
 namespace Ui {
 class FrmModulePara;
 }
@@ -19,8 +21,10 @@ public:
     explicit FrmModulePara(QWidget *parent = 0);
     ~FrmModulePara();
     void SetTitleText(QString title);
-    void SetPara(QString name, paraData *pdata, quint8 mod);
+    void SetPara(QString name, paraModule * pModule, quint8 mod);
+    void setModule(QString name,paraModule * pModule,quint8 mod);
     void setVoiceModel(QSqlTableModel *model);
+    void setModel(quint8 mod);
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void mouseMoveEvent(QMouseEvent *e);
@@ -35,6 +39,8 @@ private:
     paraData* pdat;
     QString editedName;
     QSqlTableModel *voiceModel;
+    quint8 model;
+    paraModule * pModule;
     //frmEditParamater *frmEditSlavePara;
     //frmEditZhaoMingPara *frmEditZhaoMing;
     //frmEditAlarmPara *frmeditalarmpara;
@@ -54,7 +60,7 @@ signals:
     void sigEditVoicePara();
     void sigChangModuleSound(quint8 id);
     void sigUpdateSoundName(paraData *para);
-    void sigSaveModulePara(QString name, paraData* pdata);
+    void sigSaveModulePara(paraModule *pModule);
 private slots:
     void on_btnMenu_Close_clicked();
     void on_btnMenu_Max_clicked();
@@ -81,11 +87,14 @@ private slots:
     void slotbtnSetLed2TextOk();
     void slotbtnSetAlarmPara();
     void slotRefreshUI(paraAlarm *par);
+    void slotShowSetCjcParaDialog();
+    void slotSetJCJPara(paraFangHuCang * data);
 public slots:
     void slotSetZhaoMingPara(paraZhaoMing * data);
     void slotSetFangHuCangPara(paraFangHuCang *data);
     void slotSetSound(quint8 id,QString md5);
     void sloteditedName(QString name);
+
 
 };
 

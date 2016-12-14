@@ -44,7 +44,7 @@ signals:
     void sigEditParaModule(QModelIndex index);
     void sigDelParaModule(QModelIndex index);
     void sigInParaModule(paraModule*);
-    void sigSaveModulePara(QString name,paraData *data);
+    void sigSaveModulePara(paraModule *data);
 private slots:
     void on_btnMenu_Close_clicked();
     void on_btnMenu_Max_clicked();
@@ -55,7 +55,7 @@ private slots:
     void btnEditPara();
     void slotbtnIn();
     void slotbtnOut();
-    void slotSaveModule(QString name,paraData *data);
+    void slotSaveModule(paraModule *data);
 public slots:
     void slotSetTableModel(QList<SlaveVersion*> slaveVersionList,QList<paraModule*> list);
     void slotSetVersionInfoList(QList<VersionInfo*> list);

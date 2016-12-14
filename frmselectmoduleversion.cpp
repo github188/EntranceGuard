@@ -35,6 +35,7 @@ void FrmSelectModuleVersion::InitStyle()
 //设置可选择的版本号
 void FrmSelectModuleVersion::slotSetVersionInfoList(QList<VersionInfo*> list)
 {
+    versionInfoList = list;
     for(int i=0;i<list.length();i++)
     {
         ui->comboBox->addItem(list.at(i)->name);
@@ -104,9 +105,9 @@ void FrmSelectModuleVersion::btnCancel()
     this->close();
 }
 //保存模板参数
-void FrmSelectModuleVersion::slotSaveModule(QString name,paraData* para)
+void FrmSelectModuleVersion::slotSaveModule(paraModule* para)
 {
-    emit sigSaveModule(name,para);
+    emit sigSaveModule(para);
 }
 void FrmSelectModuleVersion::on_btnOk_clicked()
 {
@@ -124,29 +125,45 @@ void FrmSelectModuleVersion::on_btnOk_clicked()
     }
     */
     quint8 index = ui->comboBox->currentIndex();
+    paraModule *pModule = new paraModule();
+    pModule->level=versionInfoList.at(index)->level;
     switch (index)
     {
     case 0:
+    {
+        //加钞间
+
+        FrmModulePara *frm= new FrmModulePara();
+        connect(frm,SIGNAL(sigSaveModulePara(paraModule*)),this,SLOT(slotSaveModule(paraModule*)));
+        frm->setModel(1);
+        frm->setVoiceModel(voiceModel);
+        frm->SetPara("新建模板",pModule,0);
+        frm->SetTitleText("新建模板参数");
+        this->hide();
+        frm->exec();
+        //delete para;
+    }
 
         break;
     case 1:
     {
-        paraData *para = new paraData();
+        //防护舱
         FrmModulePara *frm= new FrmModulePara();
-        connect(frm,SIGNAL(sigSaveModulePara(QString,paraData*)),this,SLOT(slotSaveModule(QString,paraData*)));
-
+        connect(frm,SIGNAL(sigSaveModulePara(paraModule*)),this,SLOT(slotSaveModule(paraModule*)));
+        frm->setModel(0);
         frm->setVoiceModel(voiceModel);
-        frm->SetPara("新建模板",para,0);
+        frm->SetPara("新建模板",pModule,0);
         frm->SetTitleText("新建模板参数");
         this->hide();
         frm->exec();
-        delete para;
-        //关闭版本选择窗口
-        this->close();
+        //delete para;
+
     }
         break;
     default:
         break;
     }
+    //关闭版本选择窗口
+    this->close();
 }
 
