@@ -665,7 +665,7 @@
                    <string notr="true"/>
                   </property>
                   <property name="currentIndex">
-                   <number>2</number>
+                   <number>0</number>
                   </property>
                   <widget class="QWidget" name="tabSlaveStatus">
                    <attribute name="icon">
@@ -3481,7 +3481,7 @@ p, li { white-space: pre-wrap; }
                            <property name="minimumSize">
                             <size>
                              <width>330</width>
-                             <height>270</height>
+                             <height>269</height>
                             </size>
                            </property>
                            <property name="maximumSize">

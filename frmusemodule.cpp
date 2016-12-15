@@ -10,7 +10,13 @@ FrmUseModule::FrmUseModule(QWidget *parent) :
     InitStyle();
     connect(ui->btnOK,SIGNAL(clicked(bool)),this,SLOT(btnOK()));
     connect(ui->btnCancel,SIGNAL(clicked(bool)),this,SLOT(btnCancel()));
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    QStringList header;
+    header<<"模版名称"<<"适用版本号";
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setHorizontalHeaderLabels(header);
+    ui->tableWidget->setColumnWidth(0,317);
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);//关键
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 FrmUseModule::~FrmUseModule()
@@ -94,17 +100,19 @@ void FrmUseModule::on_btnMenu_Min_clicked()
 void FrmUseModule::btnOK()
 {
     this->close();
-    emit sigSelectModule(ui->tableView->currentIndex());    
+    emit sigSelectModule(ui->tableWidget->currentIndex());
 }
 void FrmUseModule::btnCancel()
 {
     this->close();
 }
-void FrmUseModule::slotSetTableModel(QSqlTableModel * model)
+void FrmUseModule::slotSetTableModel(QList<SlaveVersion *> versionList)
 {
-    tableModel = model;
-    ui->tableView->setModel(tableModel);
-    ui->tableView->setColumnWidth(0,317);
-    ui->tableView->horizontalHeader()->setStretchLastSection(true);//关键
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    slaveVersionList= versionList;
+    ui->tableWidget->setRowCount(slaveVersionList.length());
+    for(int i=0;i<slaveVersionList.length();i++)
+    {
+        ui->tableWidget->setItem(i,0,new QTableWidgetItem(slaveVersionList.at(i)->name));
+        ui->tableWidget->setItem(i,1,new QTableWidgetItem(slaveVersionList.at(i)->version));
+    }
 }

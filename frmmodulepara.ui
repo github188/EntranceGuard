@@ -306,7 +306,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="tabSlavePara">
          <attribute name="title">
@@ -1491,7 +1491,7 @@ p, li { white-space: pre-wrap; }
             <x>14</x>
             <y>14</y>
             <width>419</width>
-            <height>245</height>
+            <height>301</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_35">
@@ -1532,13 +1532,13 @@ p, li { white-space: pre-wrap; }
                <property name="minimumSize">
                 <size>
                  <width>330</width>
-                 <height>210</height>
+                 <height>270</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>330</width>
-                 <height>210</height>
+                 <height>270</height>
                 </size>
                </property>
                <property name="focusPolicy">
@@ -1590,16 +1590,16 @@ p, li { white-space: pre-wrap; }
           <property name="geometry">
            <rect>
             <x>16</x>
-            <y>265</y>
+            <y>320</y>
             <width>417</width>
-            <height>27</height>
+            <height>16</height>
            </rect>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(255, 0, 0);</string>
           </property>
           <property name="text">
-           <string>注意：此功能对2.7版本控制器无效</string>
+           <string>注意：此功能对2.8版本控制器以上有效</string>
           </property>
          </widget>
         </widget>

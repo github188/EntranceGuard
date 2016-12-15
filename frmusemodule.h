@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QTableView>
 #include <QSqlTableModel>
+#include "../DATA/slaveversion.h"
 namespace Ui {
 class FrmUseModule;
 }
@@ -27,6 +28,7 @@ private:
     bool max;
     QRect location;
     QSqlTableModel *tableModel;
+    QList<SlaveVersion *> slaveVersionList;
     void InitStyle();
 signals:
     //添加设备信号
@@ -38,7 +40,7 @@ private slots:
     void btnOK();
     void btnCancel();
 public slots:
-    void slotSetTableModel(QSqlTableModel * model);
+    void slotSetTableModel(QList<SlaveVersion *> versionList);
 };
 
 #endif // FRMUSEMODULE_H

@@ -224,7 +224,7 @@ signals:
     void AddedEqument();
     void sigSendParentTbModel(QSqlTableModel *);
     void sigSendVoiceTbModel(QSqlTableModel *);
-    void sigSendModuleTbModel(QSqlTableModel *);
+    void sigSendModuleTbModel(QList<SlaveVersion *> list);
     void sigSendModuleTbModel(QList<SlaveVersion *>,QList<paraModule*> list);
     void sigConnectedToSlave(bool,paraData*);
     void sigWriteNowTime(quint8 year, quint8 month, quint8 day, quint8 hour, quint8 minute, quint8 second, quint8 week);

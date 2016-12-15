@@ -64,7 +64,7 @@ FrmModulePara::FrmModulePara(QWidget *parent) :
     }
 
     ui->tableWidgetAlarmPara->setColumnCount(2);
-    ui->tableWidgetAlarmPara->setRowCount(7);
+    ui->tableWidgetAlarmPara->setRowCount(9);
     ui->tableWidgetAlarmPara->setColumnWidth(0,250);
     ui->tableWidgetAlarmPara->setColumnWidth(1,80);
     ui->tableWidgetAlarmPara->horizontalHeader()->hide();//隐藏表头
@@ -262,6 +262,7 @@ void FrmModulePara::DisplayFangHuCangPara()
         ui->tableWidgetFangHuCang->setItem(2,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.timeOutRemind)+"秒钟"));
         ui->tableWidgetFangHuCang->setItem(3,3,new QTableWidgetItem(QString::number(pdat->fangHuCang.warnningDelayTime)+"秒钟"));
         ui->tableWidgetFangHuCang->setItem(4,3,new QTableWidgetItem(pdat->fangHuCang.fangQiewarnning?"启动":"不启用"));
+
     }
         break;
     case 1://加钞间
@@ -288,6 +289,21 @@ void FrmModulePara::DisplayAlarmPara()
     ui->tableWidgetAlarmPara->setItem(4,1,new QTableWidgetItem(pdat->alarmPara.boLiAlarmEnable?"启用":"不启用"));
     ui->tableWidgetAlarmPara->setItem(5,1,new QTableWidgetItem(pdat->alarmPara.shuiQinAlarmEnable?"启用":"不启用"));
     ui->tableWidgetAlarmPara->setItem(6,1,new QTableWidgetItem(pdat->alarmPara.tempAlarmEnable?"启用":"不启用"));
+    switch(model)
+    {
+    case 0:
+        ui->tableWidgetAlarmPara->setItem(7,1,new QTableWidgetItem(""));
+        ui->tableWidgetAlarmPara->setItem(8,1,new QTableWidgetItem(""));
+        break;
+    case 1:
+        ui->tableWidgetAlarmPara->setItem(7,1,new QTableWidgetItem(pdat->alarmPara.doorCiAlarmEnable?"启用":"不启用"));
+        ui->tableWidgetAlarmPara->setItem(8,1,new QTableWidgetItem(pdat->alarmPara.existManAlarmEnable?"启用":"不启用"));
+        break;
+    case 0xff:
+        break;
+    default:
+        break;
+    }
 }
 void FrmModulePara::setModel(quint8 mod)
 {
@@ -311,6 +327,9 @@ void FrmModulePara::setModel(quint8 mod)
         ui->labelVoice_7->setText("门开提示语音内容：");
         ui->labelVoice_8->setText("再见语音内容：");
         ui->labelVoice_9->setText("维护中语音内容：");
+
+        ui->tableWidgetAlarmPara->setItem(7,0,new QTableWidgetItem(""));
+        ui->tableWidgetAlarmPara->setItem(8,0,new QTableWidgetItem(""));
     }
         break;
     case 1://加钞间
@@ -331,6 +350,10 @@ void FrmModulePara::setModel(quint8 mod)
         ui->labelVoice_7->setText("注册成功语音内容：");
         ui->labelVoice_8->setText("再见语音内容：");
         ui->labelVoice_9->setText("主卡语音内容：");
+        ui->tableWidgetAlarmPara->setItem(7,0,new QTableWidgetItem("是否启用非法开门报警"));
+        ui->tableWidgetAlarmPara->setItem(8,0,new QTableWidgetItem("是否启用非法入侵报警"));
+        ui->tableWidgetAlarmPara->item(7,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
+        ui->tableWidgetAlarmPara->item(8,0)->setTextAlignment(Qt::AlignRight|Qt::AlignCenter);
     }
         break;
     default:

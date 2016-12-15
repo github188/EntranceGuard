@@ -307,7 +307,7 @@ frmMain::frmMain(QWidget *parent) :
     //connect(this,SIGNAL(sigSendVoiceTbModel(QSqlTableModel*)),frmSelectSound,SLOT(setTreeViewModel(QSqlTableModel*)));
 
     connect(this,SIGNAL(sigSendModuleTbModel(QList<SlaveVersion *>,QList<paraModule*>)),frmManagerModel,SLOT(slotSetTableModel(QList<SlaveVersion *>,QList<paraModule*>)));
-    connect(this,SIGNAL(sigSendModuleTbModel(QSqlTableModel*)),frmUseModule,SLOT(slotSetTableModel(QSqlTableModel*)));
+    connect(this,SIGNAL(sigSendModuleTbModel(QList<SlaveVersion *>)),frmUseModule,SLOT(slotSetTableModel(QList<SlaveVersion *>)));
 
     connect(ui->btnChangeHySound,SIGNAL(clicked(bool)),this,SLOT(slotBtnChangeHySound()));
     connect(ui->btnChangeSyzSound,SIGNAL(clicked(bool)),this,SLOT(slotBtnChangesyzSound()));
@@ -4579,7 +4579,7 @@ void frmMain::readModuleData()
     //moduleModel->setHeaderData(1,Qt::Horizontal,tr("适用版本"));
     emit sigSendModuleTbModel(versionList,moduleList);
     frmManagerModel->slotSetVersionInfoList(versioninfoList);
-    emit sigSendModuleTbModel(moduleModel);
+    emit sigSendModuleTbModel(versionList);
 }
 void frmMain::readVoiceData()
 {

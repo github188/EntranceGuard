@@ -306,9 +306,18 @@
        </layout>
       </item>
       <item row="0" column="0">
-       <widget class="QTableView" name="tableView">
+       <widget class="QTableWidget" name="tableWidget">
         <property name="styleSheet">
          <string notr="true">border: 1px solid #B8B8B8;</string>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
         </property>
        </widget>
       </item>
