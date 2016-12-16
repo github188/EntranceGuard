@@ -457,7 +457,8 @@ void frmMain::InitStyle()
     IconHelper::Instance()->SetIcon(ui->btnMenu_Min, QChar(0xf068), 10);
     IconHelper::Instance()->SetIcon(ui->btnMenu, QChar(0xf0c9), 10);
     //IconHelper::Instance()->SetIcon(ui->lab_Ico, QChar(0xf015), 12);
-
+    userParaEnable=0;
+    ui->jcjTabSlavePara->setHidden(true);
     //菜单栏设计
     menuBar = new QMenuBar(ui->widget);
     menuBar->setGeometry(QRect(0,0,3000,40));
@@ -479,6 +480,10 @@ void frmMain::InitStyle()
 
     QAction *editFangHuCangPara = menu1->addAction(QIcon(":/工具栏图标/image/快捷按钮图标/工作参数.png"),tr("工作参数"));
     QAction *editZhaoMingPara = menu1->addAction(QIcon(":/工具栏图标/image/快捷按钮图标/照明参数.png"),tr("照明参数"));
+
+    enableUserPara = menu1->addAction(tr("&使能用户参数"));
+    enableUserPara->setCheckable(true);
+
     QAction *managerVoice = menuVoice->addAction(tr("管理声音"));
     QAction *managerModule = menuModule->addAction(tr("管理模板"));
     QAction *useModule = menuModule->addAction(QIcon(":/工具栏图标/image/快捷按钮图标/应用模板.png"),tr("应用模板"));
@@ -523,7 +528,7 @@ void frmMain::InitStyle()
     connect(loadSlaveLog,SIGNAL(triggered(bool)),this,SLOT(slotReadSlaveMsg()));
     connect(searchSlaveLog,SIGNAL(triggered(bool)),this,SLOT(slotShowSearchSlaveLogWindow()));
     connect(searchManualLog,SIGNAL(triggered(bool)),this,SLOT(slotShowSearchSystemLogWindow()));
-
+    connect(enableUserPara,SIGNAL(triggered(bool)),this,SLOT(slotSetUserParaEnable()));
     //窗口最大化显示
     on_btnMenu_Max_clicked();
     QPixmap pixmap(myApp::AppPath+myApp::MainPageImage);
@@ -670,7 +675,14 @@ void frmMain::InitStyle()
     }
 
 }
-
+void frmMain::slotSetUserParaEnable()
+{
+    enableUserPara->setChecked(true);
+    //ui->jcjTabSlavePara->setHidden(false);
+    windowStatus=0;
+    userParaEnable=1;
+    //slotupdateSlaveStatusDisplay(&currentSlave->equParaData);
+}
 void frmMain::InitForm()
 {
     bool exitInList=false;
@@ -1750,7 +1762,14 @@ void frmMain::changeJCJText()
         ui->tabWidgetSlavePara->addTab(ui->tabAlarmPara,"报警参数");
         ui->tabWidgetSlavePara->addTab(ui->jcjtabUserPara,"用户参数");
         //ui->tabWidgetSlavePara->setCurrentIndex(0);
-
+        if(userParaEnable)
+        {
+            //ui->tabWidgetSlavePara->addTab(ui->jcjtabUserPara,"用户参数");
+        }
+        else
+        {
+            ui->tabWidgetSlavePara->removeTab(5);
+        }
         ui->btnOpenDoor->setStyleSheet("background-color:rgba(0,0,0,0);border-style:none;");
         ui->btnOpenDoor->setText("");
         ui->btnOpenDoor->setEnabled(false);

@@ -219,6 +219,7 @@ private slots:
     void slotbtnDeleteKey();
     void slotbtnChangeAdminKey();
     void slotSetJCJSlaveReturnNormalStatus();
+    void slotSetUserParaEnable();
 signals:
     void SearchedEqument(QList<TreeViewItem*> *registeredList,QList<paraData*> *paradataList);
     void AddedEqument();
@@ -269,6 +270,7 @@ private:
     QToolBar *toolBar;
     QAction* actionSearch;
     QAction* actionAdd;
+    QAction * enableUserPara;//使能用户参数
     //添加修改操作员软件的菜单
     QAction *editUserPermission;
     QString editedName;
@@ -292,7 +294,7 @@ private:
 
     QString iconCjcAlarmIllegalInEnable;//非法入侵报警状态－报警
     QString iconCjcAlarmIllegalInDisable;//非法入侵报警状态－正常
-
+    quint8 userParaEnable;
     //
     QString gateOpen;
     QString gateClose;
