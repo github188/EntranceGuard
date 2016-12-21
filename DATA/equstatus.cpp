@@ -24,6 +24,8 @@ equStatus::equStatus()
     boLiAlarmStatus=0;       //玻璃破碎报警使能
     shuiQinAlarmStatus=0;    //水浸报警使能
     tempAlarmStatus=0;       //温度报警使能
+    doorCiAlarmStatus=0;     //门磁报警状态 非法开门状态
+    existManAlarmStatus=0;   //人存在报警状态 非法入侵报警
     /***加钞间新加状态****/
     workStatus=0;//工作状态
     alarmStatus=0;//报警状态

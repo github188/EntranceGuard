@@ -4764,61 +4764,143 @@ void frmMain::changeVoice(quint8 id)
         emit sigChangeSound(id,fileName,md5);
         //添加日志记录
         InsertOneSystemLogAndShow("更改声音操作");
+
     }
 }
 void frmMain::slotBtnChangeHySound()
 {
     changeVoice(0);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改欢迎声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改欢迎声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改欢迎声音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangesyzSound()
 {
     changeVoice(1);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改使用中声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改使用中声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改请刷卡语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeWhzSound()
 {
     changeVoice(2);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改维护中声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改维护中声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改主卡语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeTimeoutWarnSound()
 {
     changeVoice(3);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改超时提醒声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改超时提醒声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改设防提示语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeTimeoutTiShiSound()
 {
     changeVoice(4);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改超时提示声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改超时提示声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改撤防语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeOutDoorSound()
 {
     changeVoice(5);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改再见声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改再见声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改注册成功语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeOpenDoorSound()
 {
     changeVoice(6);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改开门声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改开门声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改注册成功语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeFailLockSound()
 {
     changeVoice(7);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改未锁好声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改未锁好声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改未锁好声音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotBtnChangeLaDoorSound()
 {
     changeVoice(8);
     //添加日志记录
-    InsertOneSystemLogAndShow("更改拉门声音操作");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("更改拉门声音操作");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("更改删除提示语音操作");
+        break;
+    default:
+        break;
+    }
 }
 void frmMain::slotShowReadSoundProcess(quint64 size)
 {
@@ -4932,7 +5014,17 @@ void frmMain::slotBtnReadSyzSound()
     {
         emit sigReadSyzSound();
         //添加日志记录
-        InsertOneSystemLogAndShow("读取使用中语音");
+
+        switch (currentSlave->GetSlaveType()) {
+        case 0://防护舱
+            InsertOneSystemLogAndShow("读取使用中语音");
+            break;
+        case 1://加钞间
+            InsertOneSystemLogAndShow("读取请刷卡提示语音");
+            break;
+        default:
+            break;
+        }
     }
 }
 void frmMain::slotBtnReadWhzSound()
@@ -4947,7 +5039,17 @@ void frmMain::slotBtnReadWhzSound()
     {
         emit sigReadWhzSound();
         //添加日志记录
-        InsertOneSystemLogAndShow("读取维护中语音");
+
+        switch (currentSlave->GetSlaveType()) {
+        case 0://防护舱
+            InsertOneSystemLogAndShow("读取维护中语音");
+            break;
+        case 1://加钞间
+            InsertOneSystemLogAndShow("读取主卡语音");
+            break;
+        default:
+            break;
+        }
     }
 }
 void frmMain::slotBtnReadTimeoutWarnSound()
@@ -4962,7 +5064,16 @@ void frmMain::slotBtnReadTimeoutWarnSound()
     {
         emit sigReadTimeoutWarnSound();
         //添加日志记录
-        InsertOneSystemLogAndShow("读取超时提醒语音");
+        switch (currentSlave->GetSlaveType()) {
+        case 0://防护舱
+            InsertOneSystemLogAndShow("读取超时提醒语音");
+            break;
+        case 1://加钞间
+            InsertOneSystemLogAndShow("读取设防语音");
+            break;
+        default:
+            break;
+        }
     }
 }
 void frmMain::slotBtnReadTimeoutTiShiSound()
@@ -4977,7 +5088,16 @@ void frmMain::slotBtnReadTimeoutTiShiSound()
     {
         emit sigReadTimeoutTiShiSound();
         //添加日志记录
-        InsertOneSystemLogAndShow("读取超时提示语音");
+        switch (currentSlave->GetSlaveType()) {
+        case 0://防护舱
+            InsertOneSystemLogAndShow("读取超时提示语音");
+            break;
+        case 1://加钞间
+            InsertOneSystemLogAndShow("读取撤防语音");
+            break;
+        default:
+            break;
+        }
     }
 }
 void frmMain::slotBtnReadFailLockSound()
@@ -5007,7 +5127,16 @@ void frmMain::slotBtnReadOpenDoorSound()
     {
         emit sigReadOpenDoorSound();
         //添加日志记录
-        InsertOneSystemLogAndShow("读取开门语音");
+        switch (currentSlave->GetSlaveType()) {
+        case 0://防护舱
+            InsertOneSystemLogAndShow("读取开门语音");
+            break;
+        case 1://加钞间
+            InsertOneSystemLogAndShow("读取注册成功语音");
+            break;
+        default:
+            break;
+        }
     }
 }
 void frmMain::slotBtnReadOutDoorSound()
@@ -5037,7 +5166,16 @@ void frmMain::slotBtnReadLaDoorSound()
     {
         emit sigReadLaDoorSound();
         //添加日志记录
-        InsertOneSystemLogAndShow("读取拉门语音");
+        switch (currentSlave->GetSlaveType()) {
+        case 0://防护舱
+            InsertOneSystemLogAndShow("读取拉门语音");
+            break;
+        case 1://加钞间
+            InsertOneSystemLogAndShow("读取删除提示语音");
+            break;
+        default:
+            break;
+        }
     }
 }
 void frmMain::slotBtnPlayHySound()
@@ -5061,7 +5199,16 @@ void frmMain::slotBtnPlaySyzSound()
 {
     //emit sigPlaySlaveSound(2);
     //添加日志记录
-    InsertOneSystemLogAndShow("试听使用中语音");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("试听使用中语音");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("试听请刷卡语音");
+        break;
+    default:
+        break;
+    }
     //return;
     //phonon play
     paraData* pdat = currentSlave->GetEquAll();
@@ -5078,7 +5225,16 @@ void frmMain::slotBtnPlayWhzSound()
 {
     //emit sigPlaySlaveSound(3);
     //添加日志记录
-    InsertOneSystemLogAndShow("试听维护中语音");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("试听维护中语音");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("试听主卡语音");
+        break;
+    default:
+        break;
+    }
     //return;
     //phonon play
     paraData* pdat = currentSlave->GetEquAll();
@@ -5095,7 +5251,16 @@ void frmMain::slotBtnPlayTimeoutWarnSound()
 {
     //emit sigPlaySlaveSound(4);
     //添加日志记录
-    InsertOneSystemLogAndShow("试听超时提醒语音");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("试听超时提醒语音");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("试听设防语音");
+        break;
+    default:
+        break;
+    }
     //return;
     //phonon play
     paraData* pdat = currentSlave->GetEquAll();
@@ -5112,7 +5277,16 @@ void frmMain::slotBtnPlayTimeoutTiShiSound()
 {
     //emit sigPlaySlaveSound(5);
     //添加日志记录
-    InsertOneSystemLogAndShow("试听超时提示语音");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("试听超时提示语音");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("试听撤防语音");
+        break;
+    default:
+        break;
+    }
     //return;
     //phonon play
     paraData* pdat = currentSlave->GetEquAll();
@@ -5146,7 +5320,16 @@ void frmMain::slotBtnPlayOpenDoorSound()
 {
     //emit sigPlaySlaveSound(7);
     //添加日志记录
-    InsertOneSystemLogAndShow("试听开门语音");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("试听开门语音");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("试听注册成功语音");
+        break;
+    default:
+        break;
+    }
     //return;
     //phonon play
     paraData* pdat = currentSlave->GetEquAll();
@@ -5180,7 +5363,17 @@ void frmMain::slotBtnPlayLaDoorSound()
 {
     //emit sigPlaySlaveSound(9);
     //添加日志记录
-    InsertOneSystemLogAndShow("试听拉门语音");
+    switch (currentSlave->GetSlaveType()) {
+    case 0://防护舱
+        InsertOneSystemLogAndShow("试听拉门语音");
+        break;
+    case 1://加钞间
+        InsertOneSystemLogAndShow("试听删除提示音");
+        break;
+    default:
+        break;
+    }
+
     //return;
     //phonon play
     paraData* pdat = currentSlave->GetEquAll();
@@ -5319,20 +5512,28 @@ void frmMain::slotUseModule(QModelIndex index)
     }
     else
     {
-        QString name = moduleModel->data(index).toString();
-        paraData * tempPara=NULL;
-        for(int i=0;i<moduleList.count();i++)
+        QString name = moduleList.at(index.row())->name;
+        if((moduleList.at((index.row()))->level ==2 && currentSlave->equParaData.slaveType == 0)||(moduleList.at((index.row()))->level ==1 && currentSlave->equParaData.slaveType == 1))
         {
-            if(moduleList.at(i)->name == name)
+            paraData * tempPara=NULL;
+            for(int i=0;i<moduleList.count();i++)
             {
-                tempPara = &moduleList.at(i)->pdat;
-                break;
+                if(moduleList.at(i)->name == name)
+                {
+                    tempPara = &moduleList.at(i)->pdat;
+                    break;
+                }
             }
-        }
-        if(tempPara==NULL)
-            return;
+            if(tempPara==NULL)
+                return;
 
-        emit sigUseModule(tempPara);
+            emit sigUseModule(tempPara);
+        }
+        else
+        {
+            myHelper::ShowMessageBoxInfo("应用模板与控制器版本不符！");
+            return;
+        }
     }
 }
 void frmMain::slotUseModuleSound(paraData *temp, quint8 id)
@@ -5455,6 +5656,8 @@ void frmMain::on_btnSetAlarmPara_clicked()
     frmEditAlarmPara * frmEditAlarm = new frmEditAlarmPara();
     connect(frmEditAlarm,SIGNAL(sigWriteAlarmPara(paraAlarm*)),currentSlave,SLOT(slotSetAlarmPara(paraAlarm*)));
     frmEditAlarm->initPara(currentSlave->GetEquAll()->alarmPara,0);
+    //设置模型
+    frmEditAlarm->setSlaveType(currentSlave->GetEquAll()->slaveType);
     frmEditAlarm->setModal(true);
     frmEditAlarm->show();
 }

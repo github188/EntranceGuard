@@ -36,6 +36,7 @@ signals:
     void sigSaveAlarmPara(paraAlarm *par);
 public slots:
     void initPara(paraAlarm paraTemp, quint8 mod);
+    void setSlaveType(quint8 slaveType);
 private slots:
     void on_btnMenu_Close_clicked();
     void on_btnMenu_Max_clicked();

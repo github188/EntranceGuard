@@ -40,6 +40,7 @@ public:
     QString GetEquSubnetMask(void); //获取设备子网掩码
     QString GetEquVersion(void);
     QString GetEquModel();
+    quint8 GetSlaveType();
     void slotreadSlavePara();
     void emitRefreshFormAndStatusChangedSignals();
     void setZhaoMingPara(paraZhaoMing *par);

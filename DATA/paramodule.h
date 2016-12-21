@@ -11,7 +11,7 @@ public:
     ~paraModule();
 
     QString name;
-    quint8 level;
+    quint8 level;//1:加钞间 2：防护舱
     paraData pdat;
 };
 

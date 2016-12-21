@@ -88,6 +88,33 @@ void frmEditAlarmPara::initPara(paraAlarm paraTemp, quint8 mod)
 
 
 }
+void frmEditAlarmPara::setSlaveType(quint8 slaveType)
+{
+    switch (slaveType) {
+    case 0://防护舱 隐藏最后两个参数
+    {
+        ui->label_18->hide();
+        ui->label_19->hide();
+        ui->rbIllegalOpenDoorEnable->hide();
+        ui->rbIllegalOpenDoorDisable->hide();
+        ui->rbIllegalInEnable->hide();
+        ui->rbIllegalInDisable->hide();
+    }
+        break;
+    case 1://加钞间 隐藏最后两个参数
+    {
+        ui->label_18->show();
+        ui->label_19->show();
+        ui->rbIllegalOpenDoorEnable->show();
+        ui->rbIllegalOpenDoorDisable->show();
+        ui->rbIllegalInEnable->show();
+        ui->rbIllegalInDisable->show();
+    }
+        break;
+    default:
+        break;
+    }
+}
 void frmEditAlarmPara::initPara(paraAlarm *paraTemp, quint8 mod)
 {
 

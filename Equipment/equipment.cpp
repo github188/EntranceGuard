@@ -150,10 +150,13 @@ void Equipment::emitRefreshFormAndStatusChangedSignals()
 void Equipment::connectToServer()
 {
     QHostAddress address(equParaData.net.ip);
-    tcpClient->disconnectFromHost();
-    //tcpClient->waitForDisconnected();
-    tcpClient->close();
-    tcpClient->connectToHost(address,tcpPort);
+    if(tcpClient)
+    {
+        tcpClient->disconnectFromHost();
+        //tcpClient->waitForDisconnected();
+        tcpClient->close();
+        tcpClient->connectToHost(address,tcpPort);
+    }
     equParaData.slaveStatus.connectStatus=2;
     /*
     if(selectStatus)
@@ -460,6 +463,11 @@ QString Equipment::GetEquVersion()
 QString Equipment::GetEquMac()
 {
     return equParaData.net.macAddr;
+}
+//获取设备类型
+quint8 Equipment::GetSlaveType()
+{
+    return equParaData.slaveType;
 }
 //获取设备所有参数
 paraData *Equipment::GetEquAll()
@@ -970,7 +978,13 @@ void Equipment::connectionClosedByServer()
     readTimeTimer->stop();//关闭定时读取时间（心跳）定时器
     detectDisconnectTimer->stop();//关闭断线检测定时器，否则会一直进入这个槽导致无法重新连接
     slaveTimeSet->stop();
-    tcpClient->close();//关闭连接
+    if(tcpClient)
+    {
+        if(tcpClient->isOpen())
+        {
+            tcpClient->close();//关闭连接
+        }
+    }
     equParaData.slaveStatus.connectStatus=0;
     /*
     if(selectStatus)
@@ -2153,7 +2167,7 @@ void Equipment::slotUseModule(paraData *temp)
     emit sigUseModuleSize(2);
     //更新报警参数
 
-    if(this->equParaData.getTwoMainVer()>27)
+    if(equParaData.getTwoMainVer()>27||equParaData.slaveType==1)
     {
         useModule = 1;
         slotSetAlarmPara(&temp->alarmPara);
