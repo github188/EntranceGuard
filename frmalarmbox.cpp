@@ -110,55 +110,55 @@ void frmAlarmBox::setSlave(Equipment * slave)
     quint8 wave=0;
     if(sta.boLiAlarmStatus)
     {
-        ui->txtAlarmText->append("玻璃破碎报警！出现！");
+        ui->txtAlarmText->append("玻璃破碎报警:出现！");
         enable[0]=1;
         wave=1;
     }
     if(sta.buttonAlarmStatus)
     {
-        ui->txtAlarmText->append("按钮报警！出现！");
+        ui->txtAlarmText->append("按钮报警:出现！");
         enable[1]=1;
         wave=1;
     }
     if(sta.cutAlarmStatus)
     {
-        ui->txtAlarmText->append("切割报警！出现！");
+        ui->txtAlarmText->append("切割报警:出现！");
         enable[2]=1;
         wave=1;
     }
     if(sta.shuiQinAlarmStatus)
     {
-        ui->txtAlarmText->append("水浸报警！出现！");
+        ui->txtAlarmText->append("水浸报警:出现！");
         enable[3]=1;
         wave=1;
     }
     if(sta.tempAlarmStatus)
     {
-        ui->txtAlarmText->append("温度报警！出现！");
+        ui->txtAlarmText->append("温度报警:出现！");
         enable[4]=1;
         wave=1;
     }
     if(sta.yanWuAlarmStatus)
     {
-        ui->txtAlarmText->append("烟雾报警！出现！");
+        ui->txtAlarmText->append("烟雾报警:出现！");
         enable[5]=1;
         wave=1;
     }
     if(sta.zhengDongAlarmStatus)
     {
-        ui->txtAlarmText->append("震动报警！出现！");
+        ui->txtAlarmText->append("震动报警:出现！");
         enable[6]=1;
         wave=1;
     }
     if(sta.doorCiAlarmStatus)
     {
-        ui->txtAlarmText->append("非法开门报警！出现！");
+        ui->txtAlarmText->append("非法开门报警:出现！");
         enable[7]=1;
         wave=1;
     }
     if(sta.existManAlarmStatus)
     {
-        ui->txtAlarmText->append("非法入侵报警！出现！");
+        ui->txtAlarmText->append("非法入侵报警:出现！");
         enable[8]=1;
         wave=1;
     }
@@ -167,7 +167,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.boLiAlarmStatus)
         {
-            ui->txtAlarmText->append("非法入侵报警！消失！");
+            ui->txtAlarmText->append("非法入侵报警:消失！");
             enable[0]=0;
         }
     }
@@ -175,7 +175,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.buttonAlarmStatus)
         {
-            ui->txtAlarmText->append("按钮报警！消失！");
+            ui->txtAlarmText->append("按钮报警:消失！");
             enable[1]=0;
         }
     }
@@ -183,7 +183,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.cutAlarmStatus)
         {
-            ui->txtAlarmText->append("切割报警！消失！");
+            ui->txtAlarmText->append("切割报警:消失！");
             enable[2]=0;
         }
     }
@@ -191,7 +191,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.shuiQinAlarmStatus)
         {
-            ui->txtAlarmText->append("水浸报警！消失！");
+            ui->txtAlarmText->append("水浸报警:消失！");
             enable[3]=0;
         }
     }
@@ -199,7 +199,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.tempAlarmStatus)
         {
-            ui->txtAlarmText->append("温度报警！消失！");
+            ui->txtAlarmText->append("温度报警:消失！");
             enable[4]=0;
         }
     }
@@ -207,7 +207,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.yanWuAlarmStatus)
         {
-            ui->txtAlarmText->append("烟雾报警！消失！");
+            ui->txtAlarmText->append("烟雾报警:消失！");
             enable[5]=0;
         }
     }
@@ -215,7 +215,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.zhengDongAlarmStatus)
         {
-            ui->txtAlarmText->append("震动报警！消失！");
+            ui->txtAlarmText->append("震动报警:消失！");
             enable[6]=0;
         }
     }
@@ -223,7 +223,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.doorCiAlarmStatus)
         {
-            ui->txtAlarmText->append("非法开门报警！消失！");
+            ui->txtAlarmText->append("非法开门报警:消失！");
             enable[7]=0;
         }
     }
@@ -232,7 +232,7 @@ void frmAlarmBox::setSlave(Equipment * slave)
     {
         if(!sta.existManAlarmStatus)
         {
-            ui->txtAlarmText->append("非法入侵报警！消失！");
+            ui->txtAlarmText->append("非法入侵报警:消失！");
             enable[8]=0;
         }
     }
