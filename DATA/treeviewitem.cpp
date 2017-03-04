@@ -1,4 +1,5 @@
 #include "treeviewitem.h"
+#include "../DATA/paraalarm.h"
 #include <QMovie>
 TreeViewItem::TreeViewItem()
 {
@@ -66,8 +67,10 @@ QIcon TreeViewItem::getQicon(void)
 {
     if(slave)
     {
+        equStatus s= slave->equParaData.slaveStatus;
+        paraAlarm pa=slave->equParaData.alarmPara;
         //设备的连接状态 0断开 1连接 2正在连接
-        switch (slave->equParaData.slaveStatus.connectStatus)
+        switch (s.connectStatus)
         {
         case 0:
             _movie->stop();
@@ -75,15 +78,16 @@ QIcon TreeViewItem::getQicon(void)
             break;
         case 1:
             _movie->stop();
-            if(slave->equParaData.slaveStatus.boLiAlarmStatus|
-                    slave->equParaData.slaveStatus.buttonAlarmStatus|
-                    slave->equParaData.slaveStatus.cutAlarmStatus|
-                    slave->equParaData.slaveStatus.shuiQinAlarmStatus|
-                    slave->equParaData.slaveStatus.tempAlarmStatus|
-                    slave->equParaData.slaveStatus.yanWuAlarmStatus|
-                    slave->equParaData.slaveStatus.zhengDongAlarmStatus|
-                    slave->equParaData.slaveStatus.doorCiAlarmStatus|
-                    slave->equParaData.slaveStatus.existManAlarmStatus)
+
+            if((s.boLiAlarmStatus && pa.boLiAlarmEnable) |
+                    (s.buttonAlarmStatus && pa.btnAlarmEnable)|
+                    (s.cutAlarmStatus && pa.cutAlarmEnable)|
+                    (s.shuiQinAlarmStatus && pa.shuiQinAlarmEnable)|
+                    (s.tempAlarmStatus && pa.tempAlarmEnable)|
+                    (s.yanWuAlarmStatus && pa.yanWuAlarmEnable)|
+                    (s.zhengDongAlarmStatus && pa.zhengDongAlarmEnable)|
+                    (s.doorCiAlarmStatus && pa.doorCiAlarmEnable)|
+                    (s.existManAlarmStatus && pa.existManAlarmEnable))
             {
                 icon=QIcon(":/联网状态图标/image/联网状态图标/连接状态-报警.png");
             }

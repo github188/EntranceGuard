@@ -461,7 +461,7 @@ void frmMain::InitStyle()
     ui->jcjTabSlavePara->setHidden(true);
     //菜单栏设计
     menuBar = new QMenuBar(ui->widget);
-    menuBar->setGeometry(QRect(0,0,3000,40));
+    //menuBar->setGeometry(QRect(0,0,3000,40));
 
     QMenu* menu = menuBar->addMenu(tr("&设备"));
     QMenu* menu1 = menuBar->addMenu(tr("&参数"));
@@ -499,7 +499,7 @@ void frmMain::InitStyle()
 
     //工具箱建立
     QAction *actionSetClock = new QAction(QIcon(":/使用状态图标/image/使用状态图标/使用状态-使用.gif"),tr("&校准时间"),this);
-    toolBar = new QToolBar(this);
+    toolBar = new QToolBar(ui->widget_2);
     //toolBar->setFixedHeight(55);
     toolBar->addAction(actionSearch);
     toolBar->addAction(actionAdd);
@@ -507,11 +507,11 @@ void frmMain::InitStyle()
     toolBar->addAction(editFangHuCangPara);
     toolBar->addAction(editZhaoMingPara);
     toolBar->addAction(useModule);
-    toolBar->setGeometry(0,0,3000,50);
+    //toolBar->setGeometry(0,0,3000,50);
     //toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);//图标在前 文字在后
     toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);//图标在上 文字在下
 
-    ui->gridLayout_3->addWidget(toolBar);
+    ui->gridLayout_3->setMenuBar(toolBar);
 
     connect(actionSearch,SIGNAL(triggered()),this,SLOT(searchEqu()));
     connect(actionAdd,SIGNAL(triggered()),this,SLOT(addEqu()));
@@ -929,7 +929,6 @@ void frmMain::InitForm()
     {
         while(query->next())
         {
-
             paraModule * module = new paraModule();
             module->name = query->value(0).toString();
             module->pdat.fangHuCang.openLockTime     = query->value(1).toInt();

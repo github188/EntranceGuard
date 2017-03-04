@@ -293,7 +293,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="startDateTime"/>
+           <widget class="QDateTimeEdit" name="startDateTime">
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_3">
@@ -312,7 +316,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="endDateTime"/>
+           <widget class="QDateTimeEdit" name="endDateTime">
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

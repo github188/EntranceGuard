@@ -302,13 +302,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>36</x>
         <y>194</y>
-        <width>119</width>
+        <width>242</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>是否启用温度报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbTempEnable">
          <property name="text">
@@ -331,13 +341,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>36</x>
         <y>162</y>
-        <width>119</width>
+        <width>242</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>是否启用水浸报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbShuiQinEnable">
          <property name="text">
@@ -360,13 +380,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>10</x>
         <y>130</y>
-        <width>119</width>
+        <width>268</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>是否启用玻璃破碎报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbBoLiEnable">
          <property name="text">
@@ -389,13 +419,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>36</x>
         <y>98</y>
-        <width>119</width>
+        <width>242</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>是否启用烟雾报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbYanWuEnable">
          <property name="text">
@@ -418,13 +458,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>36</x>
         <y>66</y>
-        <width>119</width>
+        <width>242</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>是否启用震动报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbZhenDongEnable">
          <property name="text">
@@ -447,13 +497,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>24</x>
         <y>32</y>
-        <width>119</width>
+        <width>255</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>是否启用防切割报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbFangQieEnable">
          <property name="text">
@@ -476,13 +536,23 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>154</x>
+        <x>36</x>
         <y>2</y>
-        <width>119</width>
+        <width>242</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>是否启用按钮报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbBtnEnable">
          <property name="text">
@@ -502,86 +572,16 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidget_2">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>0</y>
-        <width>145</width>
-        <height>281</height>
+        <y>226</y>
+        <width>268</width>
+        <height>25</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>是否启用按钮报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>是否启用防切割报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>是否启用震动报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>是否启用烟雾报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>是否启用玻璃破碎报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>是否启用水浸报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>是否启用温度报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
+      <layout class="QHBoxLayout" name="horizontalLayout_18">
        <item>
         <widget class="QLabel" name="label_18">
          <property name="text">
@@ -592,28 +592,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QLabel" name="label_19">
-         <property name="text">
-          <string>是否启用非法入侵报警：</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>154</x>
-        <y>224</y>
-        <width>119</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_18">
        <item>
         <widget class="QRadioButton" name="rbIllegalOpenDoorEnable">
          <property name="text">
@@ -636,13 +614,23 @@
      <widget class="QWidget" name="layoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>154</x>
-        <y>256</y>
-        <width>119</width>
+        <x>10</x>
+        <y>260</y>
+        <width>268</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_19">
+       <item>
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>是否启用非法入侵报警：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QRadioButton" name="rbIllegalInEnable">
          <property name="text">

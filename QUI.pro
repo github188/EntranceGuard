@@ -143,7 +143,8 @@ HEADERS  += frmmain.h \
     DATA/indoorkeymsg.h \
     frmselectmoduleversion.h \
     DATA/slaveversion.h \
-    DATA/versioninfo.h
+    DATA/versioninfo.h \
+    main.rc
 FORMS    += frmmain.ui \
     frmmessagebox.ui \
     frmaddequ.ui \
@@ -189,3 +190,8 @@ RESOURCES += \
 DEFINES += QS_LOG_LINE_NUMBERS # automatically writes the file and line for each log message
 # DEFINES += QS_LOG_DISABLE         # logging code is replaced with a no-op
 # DEFINES += QS_LOG_SEPARATE_THREAD # messages are queued and written from a separate thread
+
+DISTFILES += \
+    bin/Helper.doc \
+    bin/table.db \
+    bin/AppConfig.ini
